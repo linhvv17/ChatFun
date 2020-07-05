@@ -22,7 +22,7 @@ import java.util.ArrayList
 
 class FriendFragment : Fragment() {
     private lateinit var mUserAdapter: UserAdapter
-    private lateinit var mUsers: ArrayList<User>
+    private lateinit var mUsers: List<User>
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchEdtText: EditText
     override fun onCreateView(
@@ -30,7 +30,7 @@ class FriendFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mUsers = ArrayList()
+        mUsers = ArrayList<User>()
         retrieveAllUsers()
         val view =  inflater.inflate(R.layout.friend_fragment,container,false)
         recyclerView = view.findViewById(R.id.rc_search)
@@ -39,7 +39,7 @@ class FriendFragment : Fragment() {
         recyclerView!!.layoutManager = layoutManager
         recyclerView!!.setHasFixedSize(true)
         searchEdtText = view.findViewById(R.id.edt_search_user)
-        mUserAdapter = UserAdapter(context, mUsers!!,false)
+        mUserAdapter = UserAdapter(context, mUsers!! as ArrayList<User>,false)
         recyclerView!!.adapter = mUserAdapter
 
         searchEdtText!!.addTextChangedListener(object : TextWatcher{
@@ -75,7 +75,7 @@ class FriendFragment : Fragment() {
                             (mUsers as ArrayList<User>).add(user)
                         }
                     }
-                    mUserAdapter = UserAdapter(context!!, mUsers!!,false)
+                    mUserAdapter = UserAdapter(context!!, mUsers!! as ArrayList<User>,false)
                     mUserAdapter!!.notifyDataSetChanged()
                     recyclerView!!.adapter = mUserAdapter
                 }
@@ -103,7 +103,7 @@ class FriendFragment : Fragment() {
                         (mUsers as ArrayList<User>).add(user)
                     }
                 }
-                mUserAdapter = UserAdapter(context!!, mUsers!!,false)
+                mUserAdapter = UserAdapter(context!!, mUsers!! as ArrayList<User>,false)
                 mUserAdapter!!.notifyDataSetChanged()
                 recyclerView!!.adapter = mUserAdapter
             }

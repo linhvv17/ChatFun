@@ -22,10 +22,10 @@ class UserAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvName: TextView = itemView.findViewById(R.id.tv_username_profile_search)
-        var lastMessage: TextView = itemView.findViewById(R.id.tv_last_message)
+//        var lastMessage: TextView = itemView.findViewById(R.id.tv_last_message)
         var imgProfile: CircleImageView = itemView.findViewById(R.id.img_view_profile_search)
-        var imgOnline: CircleImageView = itemView.findViewById(R.id.img_view_online)
-        var img_offline: CircleImageView = itemView.findViewById(R.id.img_view_offline)
+//        var imgOnline: CircleImageView = itemView.findViewById(R.id.img_view_online)
+//        var img_offline: CircleImageView = itemView.findViewById(R.id.img_view_offline)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
