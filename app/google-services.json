@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "420060840446",
+    "firebase_url": "https://chatfun-92f3b.firebaseio.com",
+    "project_id": "chatfun-92f3b",
+    "storage_bucket": "chatfun-92f3b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420060840446:android:e9450d5faddd7e378d80af",
+        "android_client_info": {
+          "package_name": "com.example.chatfun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420060840446-lbibnsj9jphkga2n5eooh03udam63o3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJkt60zrqxBNQUoPEpIVMohAEV3CeqWPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420060840446-lbibnsj9jphkga2n5eooh03udam63o3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
