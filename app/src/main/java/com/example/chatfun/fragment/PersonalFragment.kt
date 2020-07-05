@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chatfun.R
 
-class MoreFragment: Fragment() {
+class PersonalFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.more_fragment,container,false)
+        return inflater.inflate(R.layout.personal_fragment,container,false)
     }
 }
