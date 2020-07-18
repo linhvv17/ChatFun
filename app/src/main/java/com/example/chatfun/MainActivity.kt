@@ -8,10 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
-import com.example.chatfun.fragment.ChatFragment
-import com.example.chatfun.fragment.FriendFragment
-import com.example.chatfun.fragment.HomeFragment
-import com.example.chatfun.fragment.MoreFragment
+import com.example.chatfun.fragment.*
 import com.example.chatfun.model.User
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -45,14 +42,14 @@ class MainActivity : AppCompatActivity() {
         viewPagerAdapter.addFragment(HomeFragment(),"Home")
         viewPagerAdapter.addFragment(FriendFragment(),"Friend")
         viewPagerAdapter.addFragment(ChatFragment(),"Chat")
-        viewPagerAdapter.addFragment(MoreFragment(),"More")
+        viewPagerAdapter.addFragment(PersonalFragment(),"Personal")
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         //        thay thế văn bản bằng biểu tượng.
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_page)
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_friend_page)
         tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_chat_page)
-        tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_more_page)
+        tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_personal_page)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 //được gọi khi một tab chuyển sang trạng thái được chọn.

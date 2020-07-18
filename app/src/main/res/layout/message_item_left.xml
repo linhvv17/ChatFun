@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="290dp"
+    android:padding="9dp"
+    android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:src="@drawable/profile"
+        android:id="@+id/img_profile_receiver"
+        android:layout_width="40dp"
+        android:layout_height="40dp">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+    <TextView
+        android:layout_toRightOf="@+id/img_profile_receiver"
+        android:id="@+id/show_text_message"
+        android:layout_marginLeft="10dp"
+        android:padding="8dp"
+        android:textSize="24sp"
+        android:text="abcdxyz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_message_receiver">
+    </TextView>
+    <ImageView
+        android:id="@+id/show_image_message_receiver"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="6dp"
+        android:visibility="gone">
+
+    </ImageView>
+    <TextView
+        android:id="@+id/tv_seen"
+        android:text="seen"
+        android:textSize="18dp"
+        android:layout_below="@+id/show_text_message_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+</RelativeLayout>

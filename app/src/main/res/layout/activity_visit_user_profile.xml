@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragment.PersonalFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp">
+    android:padding="20dp"
+    tools:context=".VisitUserProfileActivity">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -18,86 +20,112 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp">
+
                     <ImageView
-                        android:src="@drawable/cover"
-                        android:id="@+id/img_view_cover"
+                        android:id="@+id/img_view_cover_display"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp">
+                        android:layout_height="200dp"
+                        android:src="@drawable/cover">
 
                     </ImageView>
+
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/img_avatar"
+                        android:id="@+id/img_avatar_display"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_centerHorizontal="true"
-                        android:scaleType="centerCrop"
                         android:layout_marginTop="130dp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/bellerin">
 
                     </de.hdodenhof.circleimageview.CircleImageView>
+
                     <TextView
-                        android:id="@+id/tv_username_setting"
-                        android:text="Arron Ramsey"
-                        android:textSize="24sp"
-                        android:textColor="#4CAF50"
+                        android:id="@+id/tv_username_display"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_avatar"
+                        android:layout_below="@+id/img_avatar_display"
                         android:layout_centerHorizontal="true"
-                        android:textStyle="bold"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="10dp"
+                        android:text="Arron Ramsey"
+                        android:textColor="#4CAF50"
+                        android:textSize="24sp"
+                        android:textStyle="bold">
 
                     </TextView>
 
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
+
             <LinearLayout
-                android:layout_below="@+id/cv1"
-                android:orientation="horizontal"
+                android:id="@+id/cv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:background="#000104"
+                android:layout_below="@+id/cv1"
                 android:layout_marginTop="40dp"
-                android:gravity="center">
+                android:background="#000104"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="6dp">
+
                 <ImageView
-                    android:layout_marginRight="35dp"
-                    android:id="@+id/ic_set_facebook"
-                    android:src="@drawable/ic_facebook"
-                    android:scaleType="centerCrop"
+                    android:id="@+id/ic_display_facebook"
                     android:layout_width="60dp"
-                    android:layout_height="60dp">
+                    android:layout_height="60dp"
+                    android:layout_marginRight="35dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_facebook">
 
                 </ImageView>
+
                 <ImageView
-                    android:layout_marginRight="35dp"
-                    android:id="@+id/ic_set_instagram"
-                    android:src="@drawable/ic_instagram"
-                    android:scaleType="centerCrop"
+                    android:id="@+id/ic_display_instagram"
                     android:layout_width="60dp"
-                    android:layout_height="60dp">
+                    android:layout_height="60dp"
+                    android:layout_marginRight="35dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_instagram">
 
                 </ImageView>
+
                 <ImageView
-                    android:id="@+id/ic_set_youtobe"
-                    android:src="@drawable/ic_youtube"
-                    android:scaleType="centerCrop"
+                    android:id="@+id/ic_display_youtobe"
                     android:layout_width="60dp"
-                    android:layout_height="60dp">
+                    android:layout_height="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_youtube">
 
                 </ImageView>
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btn_send_display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv2"
+                android:layout_marginTop="40dp"
+                android:background="#2196F3"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="6dp"
+                android:text="Send Message"
+                android:textStyle="bold">
+
+            </Button>
+
         </LinearLayout>
 
     </ScrollView>
+
+
 
 
 </RelativeLayout>
