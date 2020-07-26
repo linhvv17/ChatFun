@@ -30,12 +30,11 @@ class MessageChatActivity : AppCompatActivity() {
      var firebaseUser: FirebaseUser? = null
      var chatAdapter: ChatAdapter? = null
      var mChatList: List<Chat>? = null
-    lateinit var rcMessageChat : RecyclerView
+     lateinit var rcMessageChat : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_chat)
-
         intent = intent
         userIdVisit = intent.getStringExtra("visit_id")
         firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -43,8 +42,7 @@ class MessageChatActivity : AppCompatActivity() {
         rcMessageChat.setHasFixedSize(true)
         var linearLayoutManager = LinearLayoutManager(applicationContext)
         linearLayoutManager.stackFromEnd = true
-        rcMessageChat!!.layoutManager = linearLayoutManager
-
+        rcMessageChat.layoutManager = linearLayoutManager
 
         val reference = FirebaseDatabase.getInstance().reference
             .child("Users").child(userIdVisit)
@@ -53,18 +51,14 @@ class MessageChatActivity : AppCompatActivity() {
                 override fun onCancelled(p0: DatabaseError) {
 
                 }
-
                 override fun onDataChange(p0: DataSnapshot) {
                     val user = p0.getValue(User::class.java)
-                    tv_username_chat.text = user!!.username
-                    Picasso.get().load(user.profile).into(img_profile_message_chat)
-
-                    retrieveMessage(firebaseUser!!.uid, userIdVisit, user.profile)
+                    tv_username_chat.text = user!!.getUsername()
+                    Picasso.get().load(user.getProfile()).into(img_profile_message_chat)
+                    retrieveMessage(firebaseUser!!.uid, userIdVisit, user.getProfile()!!)
                 }
-
             }
         )
-
         send_message_btn.setOnClickListener {
             val message = text_message_chat.text.toString()
             if (message == ""){
@@ -83,34 +77,7 @@ class MessageChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun retrieveMessage(senderId: String, receiverId: String?, urlImgReceiver: String) {
-        mChatList = ArrayList<Chat>()
-        val reference = FirebaseDatabase.getInstance().reference.child("Chats")
-        reference.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(p0: DataSnapshot) {
-                (mChatList as ArrayList<Chat>).clear()
-                for (dataSnapshot in p0.children){
-                    val chat = dataSnapshot.getValue(Chat::class.java)
-                    if (chat!!.receiver == senderId && chat!!.sender == receiverId ||
-                            chat!!.sender == receiverId && chat!!.receiver == senderId
-                    )
-                    {
-                        (mChatList as ArrayList<Chat>).add(chat)
-                    }
-                    chatAdapter = ChatAdapter(
-                        this@MessageChatActivity,
-                        mChatList as ArrayList<Chat>,
-                        urlImgReceiver
-                    )
-                    chatAdapter!!.notifyDataSetChanged()
-                    rcMessageChat.adapter = chatAdapter
-                }
-            }
-            override fun onCancelled(p0: DatabaseError) {
 
-            }
-        })
-    }
 
     private fun sendMessageToReceiverUser(
         senderId: String,
@@ -119,7 +86,6 @@ class MessageChatActivity : AppCompatActivity() {
     ) {
         val reference = FirebaseDatabase.getInstance().reference
         val messageKey = reference.push().key
-
         val messageHashMap = HashMap<String, Any?>()
         messageHashMap["sender"] = senderId
         messageHashMap["receiver"] = receiverId
@@ -141,12 +107,12 @@ class MessageChatActivity : AppCompatActivity() {
                     chatListReference.addListenerForSingleValueEvent(
                         object : ValueEventListener{
                             override fun onCancelled(p0: DatabaseError) {
-
                             }
-
                             override fun onDataChange(p0: DataSnapshot) {
-                                if (!p0.exists()){
+                                if (!p0.exists()) {
+
                                     chatListReference.child("id").setValue(userIdVisit)
+
                                 }
                                 val chatListReceiverReference = FirebaseDatabase
                                     .getInstance()
@@ -154,17 +120,11 @@ class MessageChatActivity : AppCompatActivity() {
                                     .child("ChatList")
                                     .child(userIdVisit)
                                     .child(firebaseUser!!.uid)
+
                                 chatListReceiverReference.child("id").setValue(firebaseUser!!.uid)
-
                             }
-
                         })
-
-
                     //implement notification
-
-
-
                     val reference = FirebaseDatabase.getInstance().reference
                         .child("Users").child(firebaseUser!!.uid)
                 }
@@ -174,11 +134,9 @@ class MessageChatActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 438 && resultCode == RESULT_OK && data!=null && data!!.data!=null){
-
             val progressBar = ProgressDialog(this)
             progressBar.setMessage("Uploading, please wait...")
             progressBar.show()
-
             val fileUri = data.data
             val storageReference = FirebaseStorage.getInstance().reference.child("Chat Images")
             val ref = FirebaseDatabase.getInstance().reference
@@ -211,5 +169,37 @@ class MessageChatActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun retrieveMessage(senderId: String, receiverId: String?, urlImgReceiver: String) {
+        mChatList = ArrayList()
+
+        val reference = FirebaseDatabase.getInstance().reference.child("Chats")
+
+        reference.addValueEventListener(object : ValueEventListener
+        {
+            override fun onDataChange(p0: DataSnapshot) {
+                (mChatList as ArrayList<Chat>).clear()
+                for (dataSnapshot in p0.children)
+                {
+                    val chat = dataSnapshot.getValue(Chat::class.java)
+                    if (chat!!.getReceiver() == senderId && chat!!.getSender() == receiverId ||
+                        chat!!.getSender() == senderId && chat!!.getReceiver() == receiverId
+                    )
+                    {
+                        (mChatList as ArrayList<Chat>).add(chat)
+                    }
+                    chatAdapter = ChatAdapter(
+                        applicationContext,
+                        mChatList!! as ArrayList<Chat>,
+                        urlImgReceiver
+                    )
+                    rcMessageChat.adapter = chatAdapter
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
     }
 }

@@ -47,8 +47,8 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user: User = mUsers[position]
-        holder.tvName.text = user.search
-        Picasso.get().load(user.profile).into(holder.imgProfile)
+        holder.tvName.text = user.getSearch()
+        Picasso.get().load(user.getProfile()).into(holder.imgProfile)
         holder.itemView.setOnClickListener {
             val options = arrayOf<CharSequence>(
                 "Send Message",
@@ -59,12 +59,12 @@ class UserAdapter(
             builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
                 if (position == 0){
                     val intent = Intent(mContext!!, MessageChatActivity::class.java)
-                    intent.putExtra("visit_id",user.uid)
+                    intent.putExtra("visit_id",user.getUid())
                     mContext.startActivity(intent)
                 }
                 if (position == 1){
                     val intent = Intent(mContext!!, VisitUserProfileActivity::class.java)
-                    intent.putExtra("visit_id",user.uid)
+                    intent.putExtra("visit_id",user.getUid())
                     mContext.startActivity(intent)
                 }
             })

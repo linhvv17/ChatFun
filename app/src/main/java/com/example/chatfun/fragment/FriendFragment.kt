@@ -71,7 +71,7 @@ class FriendFragment : Fragment() {
                 if (searchEdtText!!.text.toString() == ""){
                     for (dataSnapshot in p0.children){
                         val user: User? = dataSnapshot.getValue(User::class.java)
-                        if (!(user!!.uid).equals(firebaseUserID)){
+                        if (!(user!!.getUid()).equals(firebaseUserID)){
                             (mUsers as ArrayList<User>).add(user)
                         }
                     }
@@ -99,7 +99,7 @@ class FriendFragment : Fragment() {
                 (mUsers as ArrayList<User>).clear()
                 for (dataSnapshot in p0.children) {
                     val user: User? = dataSnapshot.getValue(User::class.java)
-                    if (user!!.uid != firebaseUserID) {
+                    if (user!!.getUid() != firebaseUserID) {
                         (mUsers as ArrayList<User>).add(user)
                     }
                 }

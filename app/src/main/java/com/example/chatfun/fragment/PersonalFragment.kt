@@ -55,9 +55,9 @@ class PersonalFragment: Fragment() {
                 if (p0.exists()){
                     val user = p0.getValue(User::class.java)
                     if (context != null){
-                        view.tv_username_setting.text = user!!.username
-                        Picasso.get().load(user!!.profile).into(view.img_avatar)
-                        Picasso.get().load(user!!.cover).into(view.img_view_cover)
+                        view.tv_username_setting.text = user!!.getUsername()
+                        Picasso.get().load(user!!.getProfile()).into(view.img_avatar)
+                        Picasso.get().load(user!!.getCover()).into(view.img_view_cover)
                     }
                 }
             }
