@@ -16,20 +16,24 @@ import com.example.chatfun.model.ChatList
 import com.example.chatfun.model.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 class ChatListAdapter(
     mContext: Context?,
-    mUsers: java.util.ArrayList<ChatList>,
+    mListChat: ArrayList<ChatList>,
     isChatCheck: Boolean
 ): RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
     private val mContext: Context? = mContext
-    private val mUsers: ArrayList<User> = mUsers
+    private val mListChat: ArrayList<ChatList> = mListChat
     private val isChatCheck: Boolean = isChatCheck
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvName: TextView = itemView.findViewById(R.id.tv_username_profile_search)
+        var tvCountMessage: TextView = itemView.findViewById(R.id.count_message)
+        var tvUserNameSend: TextView = itemView.findViewById(R.id.username_send)
+        var tvLastMessage: TextView = itemView.findViewById(R.id.message_last)
         //        var lastMessage: TextView = itemView.findViewById(R.id.tv_last_message)
-        var imgProfile: CircleImageView = itemView.findViewById(R.id.img_view_profile_search)
+        var imgAvatarSend: CircleImageView = itemView.findViewById(R.id.avatar_send)
 //        var imgOnline: CircleImageView = itemView.findViewById(R.id.img_view_online)
 //        var img_offline: CircleImageView = itemView.findViewById(R.id.img_view_offline)
     }

@@ -5,11 +5,13 @@
     android:orientation="horizontal"
     android:layout_height="wrap_content">
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar_send"
         android:src="@drawable/bellerin"
         android:layout_width="60dp"
         android:layout_height="60dp">
     </de.hdodenhof.circleimageview.CircleImageView>
     <TextView
+        android:id="@+id/count_message"
         android:text="10"
         android:textSize="20sp"
         android:textStyle="bold"
