@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -128,4 +129,8 @@ class ChatAdapter(
             MSG_TYPE_LEFT
         }
     }
+
+    /*override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): ViewHolder {
+
+    }*/
 }

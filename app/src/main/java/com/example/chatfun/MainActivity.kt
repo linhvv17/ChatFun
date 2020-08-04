@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         refUsers!!.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onDataChange(p0: DataSnapshot) {

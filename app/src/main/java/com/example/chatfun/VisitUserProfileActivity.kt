@@ -18,7 +18,6 @@ class VisitUserProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_visit_user_profile)
-
         intent = intent
         userIdVisit = intent.getStringExtra("visit_id")
 //        firebaseUser = FirebaseAuth.getInstance().currentUser
