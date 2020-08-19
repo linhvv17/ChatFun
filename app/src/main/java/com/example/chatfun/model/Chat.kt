@@ -46,7 +46,7 @@ class Chat {
         this.message = message
     }
     //isSeen
-    fun getIsSeen(): Boolean?{
+    fun isIsSeen(): Boolean?{
         return isSeen
     }
     fun setIsSeen(isSeen: Boolean){

@@ -16,7 +16,6 @@ import com.example.chatfun.model.ChatList
 import com.example.chatfun.model.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import java.util.ArrayList
 import kotlin.collections.ArrayList
 
 class ChatListAdapter(
@@ -46,34 +45,34 @@ class ChatListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return mUsers.size
+        return mListChat.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user: User = mUsers[position]
-        holder.tvName.text = user.getSearch()
-        Picasso.get().load(user.getProfile()).into(holder.imgProfile)
-        holder.itemView.setOnClickListener {
-            val options = arrayOf<CharSequence>(
-                "Send Message",
-                "Visit Profile"
-            )
-            val builder = AlertDialog.Builder(mContext)
-            builder.setTitle("What do you want?")
-            builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
-                if (position == 0){
-                    val intent = Intent(mContext!!, MessageChatActivity::class.java)
-                    intent.putExtra("visit_id",user.getUid())
-                    mContext.startActivity(intent)
-                }
-                if (position == 1){
-                    val intent = Intent(mContext!!, VisitUserProfileActivity::class.java)
-                    intent.putExtra("visit_id",user.getUid())
-                    mContext.startActivity(intent)
-                }
-            })
-
-            builder.show()
-        }
+        val chatlist: ChatList = mListChat[position]
+//        holder.tvName.text = user.getSearch()
+//        Picasso.get().load(user.getProfile()).into(holder.imgProfile)
+//        holder.itemView.setOnClickListener {
+//            val options = arrayOf<CharSequence>(
+//                "Send Message",
+//                "Visit Profile"
+//            )
+//            val builder = AlertDialog.Builder(mContext)
+//            builder.setTitle("What do you want?")
+//            builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
+//                if (position == 0){
+//                    val intent = Intent(mContext!!, MessageChatActivity::class.java)
+//                    intent.putExtra("visit_id",user.getUid())
+//                    mContext.startActivity(intent)
+//                }
+//                if (position == 1){
+//                    val intent = Intent(mContext!!, VisitUserProfileActivity::class.java)
+//                    intent.putExtra("visit_id",user.getUid())
+//                    mContext.startActivity(intent)
+//                }
+//            })
+//
+//            builder.show()
+//        }
     }
 }

@@ -1,15 +1,11 @@
 package com.example.chatfun.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
 import com.example.chatfun.model.Chat
@@ -18,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
+
 class ChatAdapter(
     mContext: Context,
     mChatList: List<Chat>,
@@ -25,6 +22,7 @@ class ChatAdapter(
     private val mContext : Context
     private val mChatList: List<Chat>
     private val urlImg : String
+    private var zoomOut: Boolean = false
     val MSG_TYPE_LEFT = 0
     val MSG_TYPE_RIGHT = 1
     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -57,20 +55,24 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val chat = mChatList[position]
 //        Picasso.get().load(urlImg).into(holder.img_profile_receiver!!)
+
+        // load Current user profile photo
+//        Glide.with(mContext!!).load(firebaseUser!!.photoUrl).into(holder.img_profile_receiver!!)
+
         //nếu gửi ảnh
         if (chat.getMessage() == "sen your an image" && chat.getUrl() != "")
             {
                 // người gửi
                 if (chat.getSender() == firebaseUser!!.uid)
                 {
-                    holder.show_text_message!!.visibility = View.GONE
+                    holder.show_text_message!!.visibility = GONE
                     holder.show_send_image_message!!.visibility = View.VISIBLE
                     Picasso.get().load(chat.getUrl()).into(holder.show_send_image_message)
-
+//
                 }
                 //người nhận
                 else if (chat.getSender() != firebaseUser!!.uid){
-                    holder.show_text_message!!.visibility = View.GONE
+                    holder.show_text_message!!.visibility = GONE
                     holder.show_image_message_receiver!!.visibility = View.VISIBLE
                     Picasso.get().load(chat.getUrl()).into(holder.show_image_message_receiver)
                 }
@@ -82,7 +84,7 @@ class ChatAdapter(
             }
         //send and seen
         if (position == mChatList.size -1){
-            if (chat.getIsSeen()!!){
+            if (chat.isIsSeen()!!){
                 holder.tv_seen!!.text = "Seen"
                 if (chat.getMessage() == "sen your an image" && chat.getUrl() != "")
                 {
@@ -102,7 +104,7 @@ class ChatAdapter(
         }
         else
         {
-            holder.tv_seen!!.visibility = View.GONE
+            holder.tv_seen!!.visibility = GONE
         }
 
     }

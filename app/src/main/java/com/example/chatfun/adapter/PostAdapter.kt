@@ -1,0 +1,113 @@
+package com.example.chatfun.adapter
+
+import android.content.Context
+import android.content.Intent
+import android.opengl.Visibility
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.chatfun.R
+import com.example.chatfun.VisitUserProfileActivity
+import com.example.chatfun.model.Post
+import com.example.chatfun.model.User
+import com.google.firebase.auth.ktx.oAuthProvider
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
+import java.lang.Exception
+import java.text.DateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
+class PostAdapter(
+    mContext: Context?,
+    mPosts: ArrayList<Post>
+) : RecyclerView.Adapter<PostAdapter.ViewHolder?>() {
+    private val mContext: Context? = mContext
+    private val mPosts: ArrayList<Post> = mPosts
+
+    override fun onCreateViewHolder(parent: ViewGroup, position: Int): PostAdapter.ViewHolder {
+        val row: View =
+            LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false)
+        return ViewHolder(row)
+    }
+    override fun onBindViewHolder( holder: ViewHolder, position: Int) {
+        //get data
+        var postId: String? = mPosts[position].postId
+        var postDes: String? = mPosts[position].postDes
+        var postTitle: String? = mPosts[position].postTitle
+        var postImage: String? = mPosts[position].postImage
+        var postTime: String? = mPosts[position].postTime
+        var userIdPost: String? = mPosts[position].uid
+        var userName: String? = mPosts[position].uName
+        var userProfile: String? = mPosts[position].userProfile
+
+        //convert time to dd/mm/yyyy hh:mm am/pm
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        if (postTime != null) {
+            calendar.timeInMillis = postTime.toLong()
+        }
+        val pTime: String = android.text.format.DateFormat.format("dd/mm/yyyy hh:mm aa",calendar).toString()
+
+        //set data
+        holder.tvUserName.text = userName
+        holder.tvTime.text = pTime
+        holder.tvTitle.text = postTitle
+        holder.tvDescr.text = postDes
+        Picasso.get().load(userProfile).placeholder(R.drawable.bellerin).into(holder.imgUser)
+        //set user data
+        if (postImage.equals("noImage")){
+            //no image post
+            holder.imgPost.visibility = View.GONE
+
+        } else{
+            try {
+                Picasso.get().load(postImage).placeholder(R.drawable.bellerin).into(holder.imgPost)
+
+            }catch(e: Exception) {
+
+            }
+        }
+
+        //click
+        holder.btnLike.setOnClickListener {
+            Toast.makeText(mContext,"Like", Toast.LENGTH_LONG).show()
+        }
+
+        holder.btnComment.setOnClickListener {
+            Toast.makeText(mContext,"Comment", Toast.LENGTH_LONG).show()
+        }
+
+        holder.btnShare.setOnClickListener {
+            Toast.makeText(mContext,"Share", Toast.LENGTH_LONG).show()
+        }
+        //
+        holder.lnProfilePost.setOnClickListener {
+            val intent = Intent(mContext!!, VisitUserProfileActivity::class.java)
+            intent.putExtra("visit_id",userIdPost)
+            mContext.startActivity(intent)
+        }
+
+
+    }
+    override fun getItemCount(): Int {
+        return mPosts.size
+    }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        //init
+        var tvUserName: TextView = itemView.findViewById(R.id.tv_show_username_post)
+        var tvTime: TextView = itemView.findViewById(R.id.tv_time_post)
+        var tvDescr: TextView = itemView.findViewById(R.id.tv_show_description_post)
+        var tvTitle: TextView = itemView.findViewById(R.id.tv_show_title_post)
+        var tvLike: TextView = itemView.findViewById(R.id.tv_count_like)
+        var imgUser: CircleImageView = itemView.findViewById(R.id.img_show_user_post)
+        var imgPost: ImageView = itemView.findViewById(R.id.img_content_post)
+        var btnLike: Button = itemView.findViewById(R.id.btn_like)
+        var btnComment: Button = itemView.findViewById(R.id.btn_comment)
+        var btnShare: Button = itemView.findViewById(R.id.btn_share)
+        var lnProfilePost: LinearLayout = itemView.findViewById(R.id.ln_profile_post)
+    }
+}

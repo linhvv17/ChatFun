@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.personal_fragment.view.*
 class PersonalFragment: Fragment() {
     private var userReference: DatabaseReference? = null
     private var firebaseUser: FirebaseUser? = null
-    private var RequestCode = 438
+    private var RequestCode = 100
     private var imgUri: Uri? = null
     private var storageRef: StorageReference? = null
     private var coverChecker: String? = ""
@@ -157,6 +157,7 @@ class PersonalFragment: Fragment() {
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, RequestCode)
     }
+    
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -167,7 +168,6 @@ class PersonalFragment: Fragment() {
             imgUri = data.data
             Toast.makeText(context,"Uploading....", Toast.LENGTH_LONG).show()
             upLoadImageToDatabase()
-
         }
     }
 
@@ -178,7 +178,6 @@ class PersonalFragment: Fragment() {
         progressBar.show()
 
         if (imgUri != null){
-
             val fileRef = storageRef!!.child(
                 System.currentTimeMillis().toString() + ".jpg"
             )

@@ -1,6 +1,8 @@
 package com.example.chatfun
 
+import android.Manifest
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +10,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
+import com.example.chatfun.adapter.ChatAdapter
 import com.example.chatfun.fragment.*
+import com.example.chatfun.model.Chat
 import com.example.chatfun.model.User
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -17,6 +21,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 //    private lateinit var auth: FirebaseAuth
@@ -26,10 +31,33 @@ class MainActivity : AppCompatActivity() {
     private var refUsers: DatabaseReference? = null
     private  var firebaseUser:FirebaseUser? = null
 
+    private val PermissionsRequestCode = 438
+    private lateinit var managePermissions: ManagePermissions
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //check permission
+        // Initialize a list of required permissions to request runtime
+//        val list = listOf<String>(
+//            Manifest.permission.CAMERA,
+//            Manifest.permission.READ_CONTACTS,
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.SEND_SMS,
+//            Manifest.permission.READ_CALENDAR
+//        )
+
+//        // Initialize a new instance of ManagePermissions class
+//        managePermissions = ManagePermissions(this,list,PermissionsRequestCode)
+
+        // Button to check permissions states
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            managePermissions.checkPermissions()
+//        }
+
         //==========
         mFirebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -38,18 +66,50 @@ class MainActivity : AppCompatActivity() {
         initToolbar()
         val tabLayout: TabLayout = findViewById(R.id.tab_layout)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
-        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(HomeFragment(),"Home")
-        viewPagerAdapter.addFragment(FriendFragment(),"Friend")
-        viewPagerAdapter.addFragment(ChatFragment(),"Chat")
-        viewPagerAdapter.addFragment(PersonalFragment(),"Personal")
-        viewPager.adapter = viewPagerAdapter
-        tabLayout.setupWithViewPager(viewPager)
+//        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+//        viewPagerAdapter.addFragment(HomeFragment(),"Home")
+//        viewPagerAdapter.addFragment(FriendFragment(),"Friend")
+//        viewPagerAdapter.addFragment(ChatFragment(),"Chat")
+//        viewPagerAdapter.addFragment(PersonalFragment(),"Personal")
+//        viewPager.adapter = viewPagerAdapter
+//        tabLayout.setupWithViewPager(viewPager)
+
+        val reference = FirebaseDatabase.getInstance().reference.child("Chats")
+
+        reference!!.addValueEventListener(object : ValueEventListener
+        {
+            override fun onDataChange(p0: DataSnapshot) {
+                val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+                var countUnReadMessage = 0
+                for (dataSnapshot in p0.children) {
+                    val chat = dataSnapshot.getValue(Chat::class.java)
+                    if (chat!!.getReceiver().equals(firebaseUser!!.uid)|| !chat.isIsSeen()!!){
+                        countUnReadMessage+=1
+                    }
+                }
+                viewPagerAdapter.addFragment(HomeFragment(),"Home")
+                viewPagerAdapter.addFragment(FriendFragment(),"Friend")
+                if (countUnReadMessage == 0){
+                    viewPagerAdapter.addFragment(ChatFragment(),"Chat")
+                }
+                else{
+                    viewPagerAdapter.addFragment(ChatFragment(),"($countUnReadMessage) Chat")
+                }
+                viewPagerAdapter.addFragment(PersonalFragment(),"Personal")
+                viewPager.adapter = viewPagerAdapter
+                tabLayout.setupWithViewPager(viewPager)
+                tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_page)
+                tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_friend_page)
+                tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_chat_page)
+                tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_personal_page)
+            }
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+
         //        thay thế văn bản bằng biểu tượng.
-        tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_page)
-        tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_friend_page)
-        tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_chat_page)
-        tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_personal_page)
+
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 //được gọi khi một tab chuyển sang trạng thái được chọn.
@@ -94,6 +154,25 @@ class MainActivity : AppCompatActivity() {
 //        tab_layout.setupWithViewPager(viewPager)
     }
 
+    // Receive the permissions request result
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+//                                            grantResults: IntArray) {
+//        when (requestCode) {
+//            PermissionsRequestCode ->{
+//                val isPermissionsGranted = managePermissions
+//                    .processPermissionsResult(requestCode,permissions,grantResults)
+//
+//                if(isPermissionsGranted){
+//                    // Do the task now
+////                    toast("Permissions granted.")
+//                }else{
+////                    toast("Permissions denied.")
+//                }
+//                return
+//            }
+//        }
+//    }
+
     override fun onStart() {
         super.onStart()
         mFirebaseAuth!!.addAuthStateListener {
@@ -124,7 +203,6 @@ class MainActivity : AppCompatActivity() {
                 finish()
                 return true
             }
-
         }
         return false
     }
@@ -133,4 +211,5 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
     }
+
 }

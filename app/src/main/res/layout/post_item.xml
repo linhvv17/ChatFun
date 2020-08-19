@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/ln_profile_post"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/profile"
+            android:id="@+id/img_show_user_post"
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+        </de.hdodenhof.circleimageview.CircleImageView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_show_username_post"
+                android:textSize="24sp"
+                android:text="Khoanh1997"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp">
+
+            </TextView>
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:id="@+id/tv_time_post"
+                android:textSize="14sp"
+                android:text="10:00 A.m"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:autoLink="all"
+        android:id="@+id/tv_show_title_post"
+        android:textSize="22sp"
+        android:hint="Title of post"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:autoLink="all"
+        android:id="@+id/tv_show_description_post"
+        android:textSize="18sp"
+        android:background="#ffffff"
+        android:hint="Description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+    <ImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/img_content_post"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/cover"/>
+    <TextView
+        android:id="@+id/tv_count_like"
+        android:text="1.2k Like"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#E91E63"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+<!--    <View-->
+<!--        android:background="F5F0F0"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp">-->
+
+<!--    </View>-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:drawableLeft="@drawable/ic_like"
+            android:background="#FFFFFF"
+            android:id="@+id/btn_like"
+            android:text="Like"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+        <Button
+            android:drawableLeft="@drawable/ic_baseline_comment_24"
+            android:background="#FFFFFF"
+            android:id="@+id/btn_comment"
+            android:text="Comment"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+        <Button
+            android:drawableLeft="@drawable/ic_baseline_share_24"
+            android:background="#FFFFFF"
+            android:id="@+id/btn_share"
+            android:text="Share"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+        
+    </LinearLayout>
+</LinearLayout>

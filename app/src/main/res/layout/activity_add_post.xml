@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar_message_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Widget.MaterialComponents.BottomAppBar">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_add_post"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+        <LinearLayout
+            android:id="@+id/ln_content_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/tv_title_post"
+                android:textSize="22sp"
+                android:hint="Title of post"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </EditText>
+            <EditText
+                android:minHeight="120dp"
+                android:id="@+id/tv_description_post"
+                android:textSize="18sp"
+                android:background="#ffffff"
+                android:hint="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </EditText>
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/imgview_post"
+                android:background="@color/colorPrimary"
+                android:minHeight="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ImageView>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_post_done"
+            android:layout_gravity="center"
+            android:text="Post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>
