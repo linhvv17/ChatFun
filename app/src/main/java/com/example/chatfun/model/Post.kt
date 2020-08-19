@@ -8,6 +8,7 @@ class Post {
     var postTitle: String? = null
     var postImage: String? = null
     var postTime: String? = null
+    var postLikes: String? = null
     var uid: String? = null
     var uName: String? = null
     var userProfile: String? = null
@@ -18,6 +19,7 @@ class Post {
          postTitle: String?,
          postImage: String?,
          postTime: String?,
+         postLikes: String?,
          uid: String?,
          uName: String?,
          userProfile: String?
@@ -27,6 +29,7 @@ class Post {
         this.postTitle=postTitle
         this.postImage=postImage
         this.postTime=postTime
+        this.postLikes=postLikes
         this.uid=uid
         this.uName=uName
         this.userProfile=userProfile

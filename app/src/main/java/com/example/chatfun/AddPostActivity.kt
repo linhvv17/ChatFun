@@ -156,7 +156,7 @@ class AddPostActivity: AppCompatActivity() {
                     postHashMap["postTitle"] = title
                     postHashMap["postDes"] = description
                     postHashMap["postImage"] = url
-                    postHashMap["postTime"] = timeStamp
+                    postHashMap["postLikes"] = "0"
 
                     //path to storage post data
                     val ref: DatabaseReference = FirebaseDatabase.getInstance().getReference("Posts")
@@ -206,6 +206,8 @@ class AddPostActivity: AppCompatActivity() {
             postHashMap["postDes"] = description
             postHashMap["postImage"] = "noImage"
             postHashMap["postTime"] = timeStamp
+            postHashMap["postTime"] = timeStamp
+            postHashMap["postLikes"] = "0"
 
             //path to storage post data
             val ref = FirebaseDatabase.getInstance().getReference("Posts")

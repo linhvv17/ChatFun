@@ -19,9 +19,12 @@ import com.example.chatfun.model.Post
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.android.synthetic.main.home_fragment.view.*
 import kotlinx.android.synthetic.main.post_item.*
 import kotlinx.android.synthetic.main.post_item.view.*
+import java.lang.Exception
 
 class HomeFragment: Fragment() {
     private lateinit var mPostAdapter: PostAdapter
@@ -50,6 +53,8 @@ class HomeFragment: Fragment() {
             startActivity(myIntent)
         })
 
+
+
         //set recyclerview
         recyclerView = view.findViewById(R.id.rc_post)
         val layoutManager = LinearLayoutManager(activity)
@@ -77,6 +82,12 @@ class HomeFragment: Fragment() {
                 mPosts.clear()
                 for (ds in p0.children){
                     val post: Post? = ds.getValue(Post::class.java)
+                    //set image
+                    try {
+                        Picasso.get().load(post!!.userProfile).placeholder(R.drawable.profile).into(img_my_avatar)
+                    }catch(e: Exception) {
+
+                    }
                     mPosts.add(post!!)
 
                     mPostAdapter = PostAdapter(activity, mPosts)

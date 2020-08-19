@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".fragment.PersonalFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="30dp">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:layout_height="wrap_content">
                     <ImageView
                         android:src="@drawable/cover"
                         android:id="@+id/img_view_cover"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp">
+                        android:layout_height="100dp">
 
                     </ImageView>
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/img_avatar"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_centerHorizontal="true"
                         android:scaleType="centerCrop"
-                        android:layout_marginTop="130dp"
+                        android:layout_marginTop="100dp"
                         android:src="@drawable/bellerin">
 
                     </de.hdodenhof.circleimageview.CircleImageView>
@@ -49,30 +44,27 @@
                         android:layout_below="@+id/img_avatar"
                         android:layout_centerHorizontal="true"
                         android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp">
                     </TextView>
-
                 </RelativeLayout>
-
             </androidx.cardview.widget.CardView>
             <LinearLayout
                 android:layout_below="@+id/cv1"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:background="#000104"
-                android:layout_marginTop="40dp"
+                android:padding="2dp"
+                android:background="#8BC34A"
+                android:layout_marginTop="5dp"
                 android:gravity="center">
                 <ImageView
                     android:layout_marginRight="35dp"
                     android:id="@+id/ic_set_facebook"
                     android:src="@drawable/ic_facebook"
                     android:scaleType="centerCrop"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp">
+                    android:layout_width="45dp"
+                    android:layout_height="45dp">
 
                 </ImageView>
                 <ImageView
@@ -80,16 +72,16 @@
                     android:id="@+id/ic_set_instagram"
                     android:src="@drawable/ic_instagram"
                     android:scaleType="centerCrop"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp">
+                    android:layout_width="45dp"
+                    android:layout_height="45dp">
 
                 </ImageView>
                 <ImageView
                     android:id="@+id/ic_set_youtobe"
                     android:src="@drawable/ic_youtube"
                     android:scaleType="centerCrop"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp">
+                    android:layout_width="45dp"
+                    android:layout_height="45dp">
 
                 </ImageView>
 
@@ -97,7 +89,11 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_my_personal_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+    </androidx.recyclerview.widget.RecyclerView>
 
-</RelativeLayout>
+</LinearLayout>

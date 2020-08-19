@@ -14,7 +14,7 @@
         android:padding="6dp"
         android:layout_alignParentBottom="true">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ic_pick_img"
+            android:id="@+id/img_my_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
@@ -30,7 +30,7 @@
             android:layout_marginRight="5dp"
             android:hint="Bạn đang nghĩ gì?"
             android:background="#EFEBEB"
-            android:layout_toRightOf="@+id/ic_pick_img"
+            android:layout_toRightOf="@+id/img_my_avatar"
             android:layout_toLeftOf="@+id/btn_post"
             android:layout_centerVertical="true">
 

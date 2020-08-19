@@ -14,7 +14,9 @@ import com.example.chatfun.R
 import com.example.chatfun.VisitUserProfileActivity
 import com.example.chatfun.model.Post
 import com.example.chatfun.model.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.oAuthProvider
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.lang.Exception
@@ -28,6 +30,11 @@ class PostAdapter(
 ) : RecyclerView.Adapter<PostAdapter.ViewHolder?>() {
     private val mContext: Context? = mContext
     private val mPosts: ArrayList<Post> = mPosts
+    private var mProcessLike: Boolean = false
+
+    private  var likesRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Likes")
+    private  var postsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Posts")
+    private  var myUId: String = FirebaseAuth.getInstance().currentUser!!.uid
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): PostAdapter.ViewHolder {
         val row: View =
@@ -41,6 +48,7 @@ class PostAdapter(
         var postTitle: String? = mPosts[position].postTitle
         var postImage: String? = mPosts[position].postImage
         var postTime: String? = mPosts[position].postTime
+        var postLikes: String? = mPosts[position].postLikes
         var userIdPost: String? = mPosts[position].uid
         var userName: String? = mPosts[position].uName
         var userProfile: String? = mPosts[position].userProfile
@@ -50,14 +58,20 @@ class PostAdapter(
         if (postTime != null) {
             calendar.timeInMillis = postTime.toLong()
         }
-        val pTime: String = android.text.format.DateFormat.format("dd/mm/yyyy hh:mm aa",calendar).toString()
+        val pTime: String = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa",calendar).toString()
 
         //set data
         holder.tvUserName.text = userName
         holder.tvTime.text = pTime
         holder.tvTitle.text = postTitle
         holder.tvDescr.text = postDes
-        Picasso.get().load(userProfile).placeholder(R.drawable.bellerin).into(holder.imgUser)
+        holder.tvLike.text = "$postLikes Likes"
+        Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(holder.imgUser)
+//        Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(holder.imgAvatar)
+
+        //set like tung post
+        setLikes(holder, postId)
+
         //set user data
         if (postImage.equals("noImage")){
             //no image post
@@ -74,7 +88,34 @@ class PostAdapter(
 
         //click
         holder.btnLike.setOnClickListener {
-            Toast.makeText(mContext,"Like", Toast.LENGTH_LONG).show()
+//            Toast.makeText(mContext,"Like", Toast.LENGTH_LONG).show()
+            val postLikes : Int = mPosts[position].postLikes!!.toInt()
+            mProcessLike = true
+            //
+            val postIde : String = mPosts[position].postId!!.toString()
+            likesRef.addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+                    if(mProcessLike){
+                        if(p0.child(postIde).hasChild(myUId)){
+                            //khi da like roi
+                            postsRef.child(postIde).child("postLikes").setValue(""+(postLikes-1))
+                            likesRef.child(postIde).child(myUId).removeValue()
+                            mProcessLike=false
+
+                        } else{
+                            //khi chua like
+                            postsRef.child(postIde).child("postLikes").setValue(""+(postLikes+1))
+                            likesRef.child(postIde).child(myUId).setValue("Liked")
+                            mProcessLike=false
+
+                        }
+                    }
+                }
+
+            })
         }
 
         holder.btnComment.setOnClickListener {
@@ -93,6 +134,30 @@ class PostAdapter(
 
 
     }
+
+    private fun setLikes(holder: PostAdapter.ViewHolder, postKey: String?) {
+        likesRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.child(postKey!!).hasChild(myUId)){
+                    //user like
+                    holder.btnLike.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_thumb_up_24,0,0,0)
+                    holder.btnLike.text = "Liked"
+
+                } else {
+                    //user not like
+                    holder.btnLike.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_like,0,0,0)
+                    holder.btnLike.text = "Like"
+                }
+
+            }
+        })
+
+    }
+
     override fun getItemCount(): Int {
         return mPosts.size
     }
@@ -104,6 +169,7 @@ class PostAdapter(
         var tvTitle: TextView = itemView.findViewById(R.id.tv_show_title_post)
         var tvLike: TextView = itemView.findViewById(R.id.tv_count_like)
         var imgUser: CircleImageView = itemView.findViewById(R.id.img_show_user_post)
+//        var imgAvatar: CircleImageView = itemView.findViewById(R.id.img_my_avatar)
         var imgPost: ImageView = itemView.findViewById(R.id.img_content_post)
         var btnLike: Button = itemView.findViewById(R.id.btn_like)
         var btnComment: Button = itemView.findViewById(R.id.btn_comment)

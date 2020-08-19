@@ -92,7 +92,7 @@ class MessageChatActivity : AppCompatActivity() {
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "image/*"
-            startActivityForResult(Intent.createChooser(intent, "Pick Image"), 438)
+            startActivityForResult(Intent.createChooser(intent, "Pick Image"), 200)
         }
 
         seenMessage(userIdVisit)

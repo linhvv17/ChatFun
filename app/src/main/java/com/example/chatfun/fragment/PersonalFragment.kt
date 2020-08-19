@@ -13,7 +13,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
+import com.example.chatfun.adapter.PostAdapter
+import com.example.chatfun.model.Post
 import com.example.chatfun.model.User
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
@@ -28,6 +32,11 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.personal_fragment.view.*
 
 class PersonalFragment: Fragment() {
+    //rc view
+    private lateinit var mPostAdapter: PostAdapter
+    private lateinit var mPosts: ArrayList<Post>
+    private lateinit var recyclerView: RecyclerView
+    //
     private var userReference: DatabaseReference? = null
     private var firebaseUser: FirebaseUser? = null
     private var RequestCode = 100
@@ -85,7 +94,48 @@ class PersonalFragment: Fragment() {
             setSocialLink()
         }
 
+        //
+        //load post
+        //set recyclerview
+        recyclerView = view.findViewById(R.id.rc_my_personal_post)
+        val layoutManager = LinearLayoutManager(context)
+        layoutManager.stackFromEnd = true
+        layoutManager.reverseLayout = true
+        recyclerView.layoutManager = layoutManager
+        //init post list
+        mPosts = arrayListOf()
+        loadAllMyPost()
+
         return view
+    }
+
+    private fun loadAllMyPost() {
+        //path cua all post
+        val ref : DatabaseReference = FirebaseDatabase.getInstance().getReference("Posts")
+        //get all data
+        ref.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(context, ""+p0.message, Toast.LENGTH_LONG).show()
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                mPosts.clear()
+                for (ds in p0.children){
+                    val post: Post? = ds.getValue(Post::class.java)
+                    if (post!!.uid == firebaseUser!!.uid){
+                        mPosts.add(post!!)
+
+                        mPostAdapter = PostAdapter(context, mPosts)
+
+                        //set adapter
+                        recyclerView.adapter = mPostAdapter
+                    }
+
+                }
+            }
+
+        })
     }
 
     private fun setSocialLink() {
