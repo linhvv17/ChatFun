@@ -7,6 +7,7 @@ class Chat {
      private var isSeen: Boolean = false
      private var url: String = ""
      private var messageId: String = ""
+     private var messageTime: String = ""
 
     constructor()
     constructor(
@@ -15,7 +16,8 @@ class Chat {
         message: String,
         isSeen: Boolean,
         url: String,
-        messageId: String
+        messageId: String,
+        messageTime: String
     ) {
         this.sender = sender
         this.receiver = receiver
@@ -23,6 +25,7 @@ class Chat {
         this.isSeen = isSeen
         this.url = url
         this.messageId = messageId
+        this.messageTime = messageTime
     }
     //sender
     fun getSender(): String?{
@@ -65,6 +68,14 @@ class Chat {
     }
     fun setMessageId(messageId: String){
         this.messageId = messageId
+    }
+
+    //messageTime
+    fun getMessageTime(): String?{
+        return messageTime
+    }
+    fun setMessageTime(messageTime: String){
+        this.messageTime = messageTime
     }
 
 

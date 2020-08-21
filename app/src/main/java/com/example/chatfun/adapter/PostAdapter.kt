@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.chatfun.PostDetailActivity
 import com.example.chatfun.R
 import com.example.chatfun.VisitUserProfileActivity
 import com.example.chatfun.model.Post
@@ -49,6 +50,7 @@ class PostAdapter(
         var postImage: String? = mPosts[position].postImage
         var postTime: String? = mPosts[position].postTime
         var postLikes: String? = mPosts[position].postLikes
+        var postComments: String? = mPosts[position].postComments
         var userIdPost: String? = mPosts[position].uid
         var userName: String? = mPosts[position].uName
         var userProfile: String? = mPosts[position].userProfile
@@ -66,6 +68,7 @@ class PostAdapter(
         holder.tvTitle.text = postTitle
         holder.tvDescr.text = postDes
         holder.tvLike.text = "$postLikes Likes"
+        holder.tvComment.text = "$postComments Comments"
         Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(holder.imgUser)
 //        Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(holder.imgAvatar)
 
@@ -119,7 +122,10 @@ class PostAdapter(
         }
 
         holder.btnComment.setOnClickListener {
-            Toast.makeText(mContext,"Comment", Toast.LENGTH_LONG).show()
+//            Toast.makeText(mContext,"Comment", Toast.LENGTH_LONG).show()
+            val intent = Intent(mContext, PostDetailActivity::class.java)
+            intent.putExtra("postId",postId)
+            mContext!!.startActivity(intent)
         }
 
         holder.btnShare.setOnClickListener {
@@ -131,8 +137,6 @@ class PostAdapter(
             intent.putExtra("visit_id",userIdPost)
             mContext.startActivity(intent)
         }
-
-
     }
 
     private fun setLikes(holder: PostAdapter.ViewHolder, postKey: String?) {
@@ -168,6 +172,7 @@ class PostAdapter(
         var tvDescr: TextView = itemView.findViewById(R.id.tv_show_description_post)
         var tvTitle: TextView = itemView.findViewById(R.id.tv_show_title_post)
         var tvLike: TextView = itemView.findViewById(R.id.tv_count_like)
+        var tvComment: TextView = itemView.findViewById(R.id.tv_count_comment)
         var imgUser: CircleImageView = itemView.findViewById(R.id.img_show_user_post)
 //        var imgAvatar: CircleImageView = itemView.findViewById(R.id.img_my_avatar)
         var imgPost: ImageView = itemView.findViewById(R.id.img_content_post)

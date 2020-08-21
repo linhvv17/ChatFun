@@ -105,6 +105,7 @@ class MessageChatActivity : AppCompatActivity() {
         receiverId: String?,
         message: String
     ) {
+        val timeStamp: String = (System.currentTimeMillis()).toString()
         val reference = FirebaseDatabase.getInstance().reference
         val messageKey = reference.push().key
         val messageHashMap = HashMap<String, Any?>()
@@ -114,6 +115,7 @@ class MessageChatActivity : AppCompatActivity() {
         messageHashMap["isSeen"] = false
         messageHashMap["url"] = ""
         messageHashMap["messageId"] = messageKey
+        messageHashMap["messageTime"] = timeStamp
         reference.child("Chats")
             .child(messageKey!!)
             .setValue(messageHashMap)
@@ -214,6 +216,7 @@ class MessageChatActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val timeStamp: String = (System.currentTimeMillis()).toString()
         if (requestCode == 200 && resultCode == RESULT_OK && data!=null && data!!.data!=null){
             val progressBar = ProgressDialog(this)
             progressBar.setMessage("Uploading, please wait...")
@@ -243,6 +246,7 @@ class MessageChatActivity : AppCompatActivity() {
                     messageHashMap["isSeen"] = false
                     messageHashMap["url"] = url
                     messageHashMap["messageId"] = messageId
+                    messageHashMap["messageTime"] = timeStamp
                     ref.child("Chats").child(messageId!!).setValue(messageHashMap)
                         .addOnCompleteListener { it ->
                             if (it.isSuccessful){
@@ -312,10 +316,8 @@ class MessageChatActivity : AppCompatActivity() {
     var seenListener : ValueEventListener? = null
     private fun seenMessage(userId: String){
         val refChatList = FirebaseDatabase.getInstance().reference.child("Chats")
-
         seenListener = refChatList.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-
             }
             override fun onDataChange(p0: DataSnapshot) {
                 for (dataSnapshot in p0.children){

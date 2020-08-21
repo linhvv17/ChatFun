@@ -1,67 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:padding="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:src="@drawable/profile"
-        android:id="@+id/img_view_profile_search"
-        android:layout_width="60dp"
-        android:layout_height="60dp">
-    </de.hdodenhof.circleimageview.CircleImageView>
-    <TextView
-        android:id="@+id/tv_username_profile_search"
-        android:layout_toRightOf="@+id/img_view_profile_search"
-        android:textSize="24sp"
-        android:text="Khoanh1997"
-        android:textColor="#000000"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="15dp">
 
-    </TextView>
+    <LinearLayout
+        android:layout_marginLeft="20sp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_gravity="center"
+            android:src="@drawable/profile"
+            android:id="@+id/img_view_profile_search"
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+        </de.hdodenhof.circleimageview.CircleImageView>
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_username_profile_search"
+                android:layout_toRightOf="@+id/img_view_profile_search"
+                android:textSize="24sp"
+                android:text="Khoanh1997"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+            </TextView>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_marginLeft="-16dp"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/ic_online"
         android:id="@+id/img_view_online"
-        app:civ_border_color="#4CAF50"
-        app:civ_border_width="12dp"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_below="@id/tv_username_profile_search"
-        android:layout_toEndOf="@id/img_view_profile_search"
         android:visibility="gone">
     </de.hdodenhof.circleimageview.CircleImageView>
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_marginLeft="-16dp"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/icon_offline"
         android:id="@+id/img_view_offline"
-        app:civ_border_color="#bfbfbf"
-        app:civ_border_width="12dp"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_below="@id/tv_username_profile_search"
-        android:layout_toEndOf="@id/img_view_profile_search"
         android:visibility="gone">
     </de.hdodenhof.circleimageview.CircleImageView>
-    <TextView
-        android:id="@+id/tv_last_message"
-        android:layout_toRightOf="@+id/img_view_profile_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginLeft="20dp"
-        android:padding="6dp"
-        android:textSize="19sp"
-        android:maxLines="1"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_below="@id/tv_username_profile_search">
 
-    </TextView>
 
 
 </RelativeLayout>
