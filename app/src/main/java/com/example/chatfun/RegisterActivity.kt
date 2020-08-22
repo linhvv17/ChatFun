@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chatfun.fragment.PersonalFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -71,22 +72,14 @@ class RegisterActivity: AppCompatActivity() {
                         userHashMap["instagram"] = "https://m.instagram.com"
                         userHashMap["website"] = "https://m.google.com"
                         //===========
+//                        startActivity(Intent(this@RegisterActivity,WelcomeActivity::class.java))
+//                        finish()
                         refUsers.updateChildren(userHashMap)
                             .addOnCompleteListener {
                                 if (it.isSuccessful){
                                     Toast.makeText(this,"Dang ky thanh cong!",Toast.LENGTH_LONG).show()
-//                                    edt_username_register.visibility = View.GONE
-//                                    btn_register.visibility = View.GONE
-//                                    btn_login_now.visibility = View.VISIBLE
-//                                    btn_login_now.setOnClickListener {
-//                                        loginUser()
-//                                    }
-//                                    onBackPressed()
-//                                    val intent = Intent()
-//                                    intent.setClass(this, MainActivity::class.java)
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-//                                    startActivity(intent)
-//                                    finish()
+                                    startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
+                                    finish()
                                 }
                                 else{
                                     Toast.makeText(this,"Error Message: "+ it.exception?.message.toString(),Toast.LENGTH_LONG).show()

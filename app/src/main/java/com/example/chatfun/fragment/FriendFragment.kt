@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.annotation.WorkerThread
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,11 +19,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 class FriendFragment : Fragment() {
     private lateinit var mUserAdapter: UserAdapter
-    private lateinit var mUsers: List<User>
+    private var mUsers: List<User>? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchEdtText: EditText
     override fun onCreateView(
@@ -31,7 +35,7 @@ class FriendFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mUsers = ArrayList<User>()
-        retrieveAllUsers()
+        loadData()
         val view =  inflater.inflate(R.layout.friend_fragment,container,false)
         recyclerView = view.findViewById(R.id.rc_search)
         val layoutManager = LinearLayoutManager(activity)
@@ -58,6 +62,10 @@ class FriendFragment : Fragment() {
         })
         return view
     }
+    @WorkerThread
+    fun loadData() {
+        retrieveAllUsers()
+    }
 
     private fun retrieveAllUsers(){
         var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
@@ -75,14 +83,12 @@ class FriendFragment : Fragment() {
                             (mUsers as ArrayList<User>).add(user)
                         }
                     }
-                    mUserAdapter = UserAdapter(context!!, mUsers!! as ArrayList<User>,false)
+                    mUserAdapter = UserAdapter(context!!, mUsers as ArrayList<User>,false)
                     mUserAdapter!!.notifyDataSetChanged()
                     recyclerView!!.adapter = mUserAdapter
                 }
             }
-
         })
-
     }
     private fun searchForUser(str:String){
         var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid

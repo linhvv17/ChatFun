@@ -39,7 +39,7 @@ class PersonalFragment: Fragment() {
     //
     private var userReference: DatabaseReference? = null
     private var firebaseUser: FirebaseUser? = null
-    private var RequestCode = 100
+    private var RequestCode = 200
     private var imgUri: Uri? = null
     private var storageRef: StorageReference? = null
     private var coverChecker: String? = ""

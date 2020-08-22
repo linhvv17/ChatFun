@@ -30,9 +30,6 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".AddPostActivity" />
-        <activity android:name=".PostDetailActivity"
-            tools:ignore="DuplicateActivity" />
-
         <service
             android:name=".notifications.MyFirebaseMessaging"
             android:enabled="true"
