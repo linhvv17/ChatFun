@@ -42,8 +42,17 @@
                 <ImageView
                     android:layout_marginRight="10dp"
                     android:id="@+id/btn_add"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toStartOf="@+id/btn_info"
                     android:src="@drawable/add_person"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp">
+
+                </ImageView>
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/btn_info"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/info"
                     android:layout_width="35dp"
                     android:layout_height="35dp">
 

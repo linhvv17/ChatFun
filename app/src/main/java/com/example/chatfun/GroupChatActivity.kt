@@ -86,6 +86,11 @@ class GroupChatActivity : AppCompatActivity() {
             intent.putExtra("groupId",groupId)
             startActivity(intent)
         }
+        btn_info.setOnClickListener {
+            val intent = Intent(this@GroupChatActivity,GroupInfoActivity::class.java)
+            intent.putExtra("groupId",groupId)
+            startActivity(intent)
+        }
     }
 
     private fun pickUpImageDialog() {
