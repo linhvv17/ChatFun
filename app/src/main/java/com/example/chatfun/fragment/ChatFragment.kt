@@ -56,7 +56,7 @@ class ChatFragment: Fragment() {
                 for (dataSnapshot in p0.children){
                     val chatList: ChatList? = dataSnapshot.getValue(ChatList::class.java)
                     chatlistList.add(chatList!!)
-                    loadChats()
+//                    retrieveChatList()
                 }
                 retrieveChatList()
             }

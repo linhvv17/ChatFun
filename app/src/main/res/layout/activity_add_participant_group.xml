@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddParticipantGroupActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/my_toolbar"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:id="@+id/rc_add_user_to_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>

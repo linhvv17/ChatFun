@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#eee"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_marginBottom="10dp"
+        android:id="@+id/appbar_add_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Widget.MaterialComponents.BottomAppBar">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_add_group"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_below="@+id/appbar_add_group"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/ic_group"
+        android:src="@drawable/bellerin"
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+    <EditText
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="#ffffff"
+        android:hint="Group Title"
+        android:layout_below="@id/ic_group"
+        android:id="@+id/edt_title_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </EditText>
+    <EditText
+        android:layout_marginTop="10dp"
+        android:inputType="textImeMultiLine"
+        android:gravity="top"
+        android:padding="10dp"
+        android:minHeight="100dp"
+        android:background="#ffffff"
+        android:hint="Group Description"
+        android:layout_below="@id/edt_title_group"
+        android:id="@+id/edt_description_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </EditText>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/float_done"
+        android:src="@drawable/ic_baseline_done_all_24"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="#4CAF50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+</RelativeLayout>

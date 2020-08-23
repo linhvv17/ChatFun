@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#ffffff"
+    android:layout_marginTop="1dp"
+    app:contentPadding="3dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon_group_chat"
+            android:src="@drawable/ic_group"
+            android:layout_width="70dp"
+            android:layout_height="70dp">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+        <TextView
+            android:text="Group Title"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:id="@+id/title_group_chat"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/icon_group_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </TextView>
+        <TextView
+            android:text="Alex Sander"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:id="@+id/name_sender"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/icon_group_chat"
+            android:layout_below="@+id/title_group_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <TextView
+            android:singleLine="true"
+            android:text="Hello"
+            android:textSize="14sp"
+            android:id="@+id/tv_message_last"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/name_sender"
+            android:layout_below="@+id/title_group_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <TextView
+            android:singleLine="true"
+            android:text="11:22"
+            android:textSize="14sp"
+            android:id="@+id/tv_time_last"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/name_sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -259,7 +259,6 @@ class MessageChatActivity : AppCompatActivity() {
                                     override fun onCancelled(p0: DatabaseError) {
 
                                     }
-
                                     override fun onDataChange(p0: DataSnapshot) {
                                         val user = p0.getValue(User::class.java)
                                         if (notify){

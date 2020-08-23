@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
     private var refUsers: DatabaseReference? = null
     private  var firebaseUser:FirebaseUser? = null
 
-    private val PermissionsRequestCode = 438
-    private lateinit var managePermissions: ManagePermissions
+//    private val PermissionsRequestCode = 438
+//    private lateinit var managePermissions: ManagePermissions
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,13 +95,15 @@ class MainActivity : AppCompatActivity() {
                 else{
                     viewPagerAdapter.addFragment(ChatFragment(),"($countUnReadMessage) Chat")
                 }
+                viewPagerAdapter.addFragment(GroupFragment(),"Group")
                 viewPagerAdapter.addFragment(PersonalFragment(),"Personal")
                 viewPager.adapter = viewPagerAdapter
                 tabLayout.setupWithViewPager(viewPager)
                 tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_page)
                 tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_friend_page)
                 tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_chat_page)
-                tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_personal_page)
+                tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_group)
+                tabLayout.getTabAt(4)!!.setIcon(R.drawable.ic_personal_page)
             }
             override fun onCancelled(p0: DatabaseError) {
 

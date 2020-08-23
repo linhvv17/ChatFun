@@ -107,7 +107,7 @@ class AddPostActivity: AppCompatActivity() {
         btn_post_done.setOnClickListener {
                 val title = tv_title_post.text.toString().trim()
                 val description = tv_description_post.text.toString().trim()
-                
+
                 if (TextUtils.isEmpty(title)){
                     Toast.makeText(applicationContext, "Hãy thêm title",Toast.LENGTH_LONG).show()
                     return@setOnClickListener
@@ -288,8 +288,6 @@ class AddPostActivity: AppCompatActivity() {
 
     }
 
-
-
     private fun showImagePickDialog() {
         var options = arrayOf<String>("Camera", "Gallery")
         //dialog
@@ -380,7 +378,7 @@ class AddPostActivity: AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
+//        imgview_post.setImageURI(img_uri)
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == IMAGE_PICK_GALLERY_CODE){
                 //camera

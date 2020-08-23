@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostDetailActivity"></activity>
+        <activity android:name=".AddParticipantGroupActivity"></activity>
+        <activity android:name=".GroupChatActivity" />
+        <activity android:name=".PostDetailActivity" />
         <activity android:name=".VisitUserProfileActivity" />
         <activity android:name=".MessageChatActivity" />
         <activity android:name=".WelcomeActivity">
@@ -30,6 +32,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".AddPostActivity" />
+        <activity android:name=".AddGroupActivity" />
+
         <service
             android:name=".notifications.MyFirebaseMessaging"
             android:enabled="true"
