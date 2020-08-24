@@ -1,4 +1,4 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.InterfaceApp.APIService2
+import com.example.chatfun.R
 import com.example.chatfun.adapter.ChatAdapter
-import com.example.chatfun.fragment.ChatFragment
 import com.example.chatfun.model.Chat
 import com.example.chatfun.model.User
 import com.example.chatfun.notifications.*

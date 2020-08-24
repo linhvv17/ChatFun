@@ -1,20 +1,23 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import com.example.chatfun.R
 import com.example.chatfun.adapter.AddParticipantAdapter
-import com.example.chatfun.model.GroupChat
 import com.example.chatfun.model.User
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_add_participant_group.*
 import kotlinx.android.synthetic.main.activity_group_info.*
-import kotlinx.android.synthetic.main.fragment_group.*
 import java.lang.Exception
 import java.util.*
 
@@ -37,7 +40,7 @@ class GroupInfoActivity : AppCompatActivity() {
         loadGroupInfo()
         loadMyGroupRole()
         edit_group.setOnClickListener {
-            val intent = Intent(this, AddParticipantGroupActivity::class.java)
+            val intent = Intent(this, EditGroupActivity::class.java)
             intent.putExtra("groupId",groupId)
             startActivity(intent)
         }
@@ -46,6 +49,89 @@ class GroupInfoActivity : AppCompatActivity() {
             intent.putExtra("groupId",groupId)
             startActivity(intent)
         }
+        leave_group.setOnClickListener {
+            var dialogTitle : String = ""
+            var dialogDescription : String = ""
+            var posititiveButtonTitle : String = ""
+            if (myGroupRole.equals("creator")){
+                dialogTitle = "Delete Group"
+                dialogDescription = " Are you want to delete group!"
+                posititiveButtonTitle = "DELETE"
+            } else{
+                dialogTitle = "Leave Group"
+                dialogDescription = " Are you want to leave group!"
+                posititiveButtonTitle = "LEAVE"
+            }
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(dialogTitle)
+                .setMessage(dialogDescription)
+                .setPositiveButton(posititiveButtonTitle,object : DialogInterface.OnClickListener{
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        if (myGroupRole.equals("creator")){
+                            deleteGroup()
+                        } else {
+                            leaveGroup()
+                        }
+                    }
+
+                })
+                .setNegativeButton("CANCEL", object : DialogInterface.OnClickListener{
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        dialog!!.dismiss()
+                    }
+
+                })
+                builder.create().show()
+        }
+    }
+
+    private fun leaveGroup() {
+        val ref = FirebaseDatabase.getInstance().getReference("Groups")
+        ref.child(groupId!!).child("Participants").child(firebaseAuth!!.uid!!)
+            .removeValue()
+            .addOnSuccessListener {object : OnSuccessListener<Void>{
+                override fun onSuccess(p0: Void?) {
+                    Toast.makeText(this@GroupInfoActivity, "Leave Success", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this@GroupInfoActivity,
+                        MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            }
+            .addOnFailureListener {object : OnFailureListener{
+                override fun onFailure(p0: Exception) {
+                    Toast.makeText(this@GroupInfoActivity, p0.message, Toast.LENGTH_LONG).show()
+                }
+            }
+            }
+    }
+
+    private fun deleteGroup() {
+        val ref = FirebaseDatabase.getInstance().getReference("Groups")
+        ref.child(groupId!!)
+            .removeValue()
+            .addOnCompleteListener {
+                Toast.makeText(this@GroupInfoActivity, "Delete Success", Toast.LENGTH_LONG).show()
+                onBackPressed()
+//                val intent = Intent(this@GroupInfoActivity,MainActivity::class.java)
+//                startActivity(intent)
+            }
+            .addOnSuccessListener {object : OnSuccessListener<Void>{
+                override fun onSuccess(p0: Void?) {
+                    Toast.makeText(this@GroupInfoActivity, "Delete Success", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this@GroupInfoActivity,
+                        MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            }
+            .addOnFailureListener {object : OnFailureListener{
+                override fun onFailure(p0: Exception) {
+                    Toast.makeText(this@GroupInfoActivity, p0.message, Toast.LENGTH_LONG).show()
+                }
+            }
+            }
+
     }
 
     private fun loadMyGroupRole() {

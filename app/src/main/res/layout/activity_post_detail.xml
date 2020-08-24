@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PostDetailActivity">
+    tools:context=".activity.PostDetailActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_above="@id/rel_bottom"
@@ -145,26 +145,26 @@
                             android:text="Like">
 
                         </Button>
-                        <!--                        <Button-->
-                        <!--                            android:drawableLeft="@drawable/ic_baseline_comment_24"-->
-                        <!--                            android:background="#FFFFFF"-->
-                        <!--                            android:id="@+id/btn_comment"-->
-                        <!--                            android:text="Comment"-->
-                        <!--                            android:layout_weight="1"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content">-->
-
-                        <!--                        </Button>-->
                         <Button
-                            android:id="@+id/btn_share_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:drawableLeft="@drawable/ic_baseline_comment_24"
                             android:background="#FFFFFF"
-                            android:drawableLeft="@drawable/ic_baseline_share_24"
-                            android:text="Share">
+                            android:id="@+id/btn_comment"
+                            android:text="Comment"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
                         </Button>
+<!--                        <Button-->
+<!--                            android:id="@+id/btn_share_detail"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:background="#FFFFFF"-->
+<!--                            android:drawableLeft="@drawable/ic_baseline_share_24"-->
+<!--                            android:text="Share">-->
+
+<!--                        </Button>-->
 
                     </LinearLayout>
 

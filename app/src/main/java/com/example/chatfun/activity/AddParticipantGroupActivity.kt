@@ -1,17 +1,15 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.ActionBar
+import com.example.chatfun.R
 import com.example.chatfun.adapter.AddParticipantAdapter
-import com.example.chatfun.adapter.UserAdapter
 import com.example.chatfun.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.platforminfo.UserAgentPublisher
 import kotlinx.android.synthetic.main.activity_add_participant_group.*
 
 class AddParticipantGroupActivity : AppCompatActivity() {

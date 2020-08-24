@@ -1,17 +1,13 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import com.example.chatfun.fragment.PersonalFragment
+import com.example.chatfun.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity: AppCompatActivity() {
@@ -78,7 +74,8 @@ class RegisterActivity: AppCompatActivity() {
                             .addOnCompleteListener {
                                 if (it.isSuccessful){
                                     Toast.makeText(this,"Dang ky thanh cong!",Toast.LENGTH_LONG).show()
-                                    startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
+                                    startActivity(Intent(this@RegisterActivity,
+                                        LoginActivity::class.java))
                                     finish()
                                 }
                                 else{

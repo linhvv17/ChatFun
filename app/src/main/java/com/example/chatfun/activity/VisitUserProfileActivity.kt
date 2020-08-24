@@ -1,4 +1,4 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatfun.R
 import com.example.chatfun.adapter.PostAdapter
 import com.example.chatfun.model.Post
 import com.example.chatfun.model.User
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_visit_user_profile.*

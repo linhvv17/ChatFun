@@ -1,4 +1,4 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatfun.R
 import com.example.chatfun.adapter.CommentAdapter
 import com.example.chatfun.model.Comment
 import com.google.android.gms.tasks.OnFailureListener
@@ -163,12 +164,14 @@ class PostDetailActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.child(postId!!).hasChild(myId!!)){
                     //user like
-                    btn_like_detail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_thumb_up_24,0,0,0)
+                    btn_like_detail.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.ic_baseline_thumb_up_24,0,0,0)
                     btn_like_detail.text = "Liked"
 
                 } else {
                     //user not like
-                    btn_like_detail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_like,0,0,0)
+                    btn_like_detail.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.ic_like,0,0,0)
                     btn_like_detail.text = "Like"
                 }
 

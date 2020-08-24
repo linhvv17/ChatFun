@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatfun.MessageChatActivity
+import com.example.chatfun.activity.MessageChatActivity
 import com.example.chatfun.R
 import com.example.chatfun.model.User
-import com.example.chatfun.VisitUserProfileActivity
+import com.example.chatfun.activity.VisitUserProfileActivity
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 

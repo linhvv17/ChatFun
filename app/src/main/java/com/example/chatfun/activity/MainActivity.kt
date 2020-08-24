@@ -1,27 +1,22 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
-import android.Manifest
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
-import com.example.chatfun.adapter.ChatAdapter
+import com.example.chatfun.R
+import com.example.chatfun.adapter.ViewPagerAdapter
 import com.example.chatfun.fragment.*
 import com.example.chatfun.model.Chat
-import com.example.chatfun.model.User
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 //    private lateinit var auth: FirebaseAuth
@@ -79,7 +74,10 @@ class MainActivity : AppCompatActivity() {
         reference!!.addValueEventListener(object : ValueEventListener
         {
             override fun onDataChange(p0: DataSnapshot) {
-                val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+                val viewPagerAdapter =
+                    ViewPagerAdapter(
+                        supportFragmentManager
+                    )
                 var countUnReadMessage = 0
                 for (dataSnapshot in p0.children) {
                     val chat = dataSnapshot.getValue(Chat::class.java)

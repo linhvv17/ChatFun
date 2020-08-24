@@ -1,4 +1,4 @@
-package com.example.chatfun
+package com.example.chatfun.activity
 
 import android.Manifest
 import android.app.Activity
@@ -27,7 +27,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_add_group.*
 import kotlinx.android.synthetic.main.activity_group_chat.*
 import java.lang.Exception
 
@@ -82,12 +81,14 @@ class GroupChatActivity : AppCompatActivity() {
 
         }
         btn_add.setOnClickListener {
-            val intent = Intent(this@GroupChatActivity,AddParticipantGroupActivity::class.java)
+            val intent = Intent(this@GroupChatActivity,
+                AddParticipantGroupActivity::class.java)
             intent.putExtra("groupId",groupId)
             startActivity(intent)
         }
         btn_info.setOnClickListener {
-            val intent = Intent(this@GroupChatActivity,GroupInfoActivity::class.java)
+            val intent = Intent(this@GroupChatActivity,
+                GroupInfoActivity::class.java)
             intent.putExtra("groupId",groupId)
             startActivity(intent)
         }

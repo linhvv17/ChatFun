@@ -9,8 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
 import com.example.chatfun.model.GroupChatList
-import com.example.chatfun.GroupChatActivity
-import com.example.chatfun.model.GroupChat
+import com.example.chatfun.activity.GroupChatActivity
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView

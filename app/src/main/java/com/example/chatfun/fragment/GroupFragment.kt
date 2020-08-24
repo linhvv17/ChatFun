@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
-import com.example.chatfun.AddGroupActivity
+import com.example.chatfun.activity.AddGroupActivity
 import com.example.chatfun.adapter.GroupChatListAdapter
 import com.example.chatfun.model.GroupChatList
 import com.google.firebase.auth.FirebaseAuth

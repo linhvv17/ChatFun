@@ -16,24 +16,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GroupInfoActivity"></activity>
-        <activity android:name=".AddParticipantGroupActivity" />
-        <activity android:name=".GroupChatActivity" />
-        <activity android:name=".PostDetailActivity" />
-        <activity android:name=".VisitUserProfileActivity" />
-        <activity android:name=".MessageChatActivity" />
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".activity.EditGroupActivity"></activity>
+        <activity android:name=".activity.GroupInfoActivity" />
+        <activity android:name=".activity.AddParticipantGroupActivity" />
+        <activity android:name=".activity.GroupChatActivity" />
+        <activity android:name=".activity.PostDetailActivity" />
+        <activity android:name=".activity.VisitUserProfileActivity" />
+        <activity android:name=".activity.MessageChatActivity" />
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".AddPostActivity" />
-        <activity android:name=".AddGroupActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.AddPostActivity" />
+        <activity android:name=".activity.AddGroupActivity" />
 
         <service
             android:name=".notifications.MyFirebaseMessaging"

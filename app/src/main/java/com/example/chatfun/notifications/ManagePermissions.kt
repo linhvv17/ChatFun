@@ -1,4 +1,4 @@
-package com.example.chatfun
+package com.example.chatfun.notifications
 
 import android.app.Activity
 import android.app.AlertDialog

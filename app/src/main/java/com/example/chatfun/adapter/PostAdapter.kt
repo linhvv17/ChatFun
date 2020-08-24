@@ -2,26 +2,20 @@ package com.example.chatfun.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.chatfun.PostDetailActivity
+import com.example.chatfun.activity.PostDetailActivity
 import com.example.chatfun.R
-import com.example.chatfun.VisitUserProfileActivity
+import com.example.chatfun.activity.VisitUserProfileActivity
 import com.example.chatfun.model.Post
-import com.example.chatfun.model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.oAuthProvider
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.lang.Exception
-import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -128,9 +122,9 @@ class PostAdapter(
             mContext!!.startActivity(intent)
         }
 
-        holder.btnShare.setOnClickListener {
-            Toast.makeText(mContext,"Share", Toast.LENGTH_LONG).show()
-        }
+//        holder.btnShare.setOnClickListener {
+//            Toast.makeText(mContext,"Share", Toast.LENGTH_LONG).show()
+//        }
         //
         holder.lnProfilePost.setOnClickListener {
             val intent = Intent(mContext!!, VisitUserProfileActivity::class.java)
@@ -178,7 +172,7 @@ class PostAdapter(
         var imgPost: ImageView = itemView.findViewById(R.id.img_content_post)
         var btnLike: Button = itemView.findViewById(R.id.btn_like)
         var btnComment: Button = itemView.findViewById(R.id.btn_comment)
-        var btnShare: Button = itemView.findViewById(R.id.btn_share)
+//        var btnShare: Button = itemView.findViewById(R.id.btn_share)
         var lnProfilePost: LinearLayout = itemView.findViewById(R.id.ln_profile_post)
     }
 }
