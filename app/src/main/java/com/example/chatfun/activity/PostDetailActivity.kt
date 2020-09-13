@@ -309,7 +309,7 @@ class PostDetailActivity : AppCompatActivity() {
                     //
                     tv_show_username_post_detail.text = uName
                     tv_time_post_detail.text = pTime
-                    Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(ava_user_comment_detail)
+                    Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(img_show_user_post)
                     tv_show_title_post_detail.text = postTitle
                     tv_show_description_post_detail.text = postDes
                     tv_count_like_detail.text = "$postLikes Likes"

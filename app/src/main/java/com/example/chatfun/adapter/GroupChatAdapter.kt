@@ -1,13 +1,17 @@
 package com.example.chatfun.adapter
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
+import com.example.chatfun.activity.ViewFullSizeImageActivity
 import com.example.chatfun.model.GroupChat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -87,6 +91,33 @@ class GroupChatAdapter(
             }catch(e: Exception) {
 
             }
+            holder.messageIv!!.setOnClickListener {
+                val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
+                myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                myIntent.putExtra("url",message)
+                mContext.startActivity(myIntent)
+            }
+//
+//                val options = arrayOf<CharSequence>("View Full Size","Delete", "Cancel")
+//                        //dialog
+//                        var builder :AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
+//                        builder.setTitle("Chose Option")
+//                        //set option
+//                        builder.setItems(options, object : DialogInterface.OnClickListener {
+//                            override fun onClick(dialog: DialogInterface?, which: Int) {
+//                                if (which==0){
+//                                    val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
+//                                    myIntent.putExtra("url",message)
+//                                    mContext.startActivity(myIntent)
+//                                }
+////                                if (which==1){
+////                                    deleteMessage(holder,position)
+////                                }
+//                            }
+//                        })
+//                        builder.create().show()
+//
+//            }
         }
         //convert time to dd/mm/yyyy hh:mm am/pm
         val calendar = Calendar.getInstance(Locale.getDefault())

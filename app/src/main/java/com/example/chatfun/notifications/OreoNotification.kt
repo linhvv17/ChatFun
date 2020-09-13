@@ -16,6 +16,7 @@ import com.google.firebase.database.core.Context
 class OreoNotification(base: android.content.Context):ContextWrapper(base) {
 
     private var notificationManager:NotificationManager? = null
+//    private var notificationManager:NotificationManager? = null
 
     @TargetApi(O)
 

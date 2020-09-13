@@ -49,8 +49,7 @@ class MessageChatActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-
-        APIService2 = getClient("https://fcm.googleapis.com/")!!.create(com.example.chatfun.InterfaceApp.APIService2::class.java)
+        APIService2 = Client.Client.getClient("https://fcm.googleapis.com/")!!.create(com.example.chatfun.InterfaceApp.APIService2::class.java)
 
         intent = intent
         userIdVisit = intent.getStringExtra("visit_id")
@@ -94,11 +93,8 @@ class MessageChatActivity : AppCompatActivity() {
             intent.type = "image/*"
             startActivityForResult(Intent.createChooser(intent, "Pick Image"), 200)
         }
-
         seenMessage(userIdVisit)
     }
-
-
 
     private fun sendMessageToReceiverUser(
         senderId: String,
@@ -133,9 +129,7 @@ class MessageChatActivity : AppCompatActivity() {
                             }
                             override fun onDataChange(p0: DataSnapshot) {
                                 if (!p0.exists()) {
-
                                     chatListReference.child("id").setValue(userIdVisit)
-
                                 }
                                 val chatListReceiverReference = FirebaseDatabase
                                     .getInstance()
@@ -150,14 +144,12 @@ class MessageChatActivity : AppCompatActivity() {
                 }
             }
 //        implement notification using fcm
-        val usersReference = FirebaseDatabase.getInstance().reference
-            .child("Users").child(firebaseUser!!.uid)
+        val usersReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser!!.uid)
 
         usersReference.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
             }
-
             override fun onDataChange(p0: DataSnapshot) {
                 val user = p0.getValue(User::class.java)
                 if (notify){
@@ -165,7 +157,6 @@ class MessageChatActivity : AppCompatActivity() {
                 }
                 notify = false
             }
-
         })
     }
 
@@ -185,14 +176,11 @@ class MessageChatActivity : AppCompatActivity() {
                         "New Message",
                         userIdVisit
                     )
-
                     val sender = Sender(data, token!!.getToken().toString())
                     APIService2!!.sendNotification(sender)!!
                         .enqueue(object : retrofit2.Callback<MyRespone?>{
                             override fun onFailure(call: Call<MyRespone?>, t: Throwable) {
-
                             }
-
                             override fun onResponse(
                                 call: Call<MyRespone?>,
                                 response: Response<MyRespone?>
@@ -202,9 +190,7 @@ class MessageChatActivity : AppCompatActivity() {
                                         Toast.makeText(this@MessageChatActivity, "Failed, Nothing happen", Toast.LENGTH_LONG).show()
                                     }
                                 }
-
                             }
-
                         })
                 }
 
@@ -281,9 +267,7 @@ class MessageChatActivity : AppCompatActivity() {
 
     private fun retrieveMessage(senderId: String, receiverId: String?, urlImgReceiver: String) {
         mChatList = ArrayList()
-
         reference = FirebaseDatabase.getInstance().reference.child("Chats")
-
         reference!!.addValueEventListener(object : ValueEventListener
         {
             override fun onDataChange(p0: DataSnapshot) {

@@ -45,8 +45,8 @@ class RegisterActivity: AppCompatActivity() {
         else if (email == ""){
             Toast.makeText(this,"Bạn chưa nhập Email !",Toast.LENGTH_LONG).show()
         }
-        else if (password == ""){
-            Toast.makeText(this,"Bạn chưa nhập Password !",Toast.LENGTH_LONG).show()
+        else if (password == "" || password.length < 6){
+            Toast.makeText(this,"Password Chưa đủ mạnh!",Toast.LENGTH_LONG).show()
         }
         else{
             //tạo tài khoản với email và password
@@ -74,9 +74,17 @@ class RegisterActivity: AppCompatActivity() {
                             .addOnCompleteListener {
                                 if (it.isSuccessful){
                                     Toast.makeText(this,"Dang ky thanh cong!",Toast.LENGTH_LONG).show()
-                                    startActivity(Intent(this@RegisterActivity,
-                                        LoginActivity::class.java))
-                                    finish()
+//                                    var test: ArrayList<String> = arrayListOf()
+//                                    test.add(email)
+//                                    test.add(password)
+                                    val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+//                                    intent.putStringArrayListExtra(
+//                                        "test",
+//                                        test as ArrayList<String?>
+//                                    )
+                                    startActivity(intent)
+//                                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+//                                    finish()
                                 }
                                 else{
                                     Toast.makeText(this,"Error Message: "+ it.exception?.message.toString(),Toast.LENGTH_LONG).show()

@@ -18,11 +18,16 @@ class LoginActivity: AppCompatActivity() {
         supportActionBar!!.title= "Login"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar_login.setNavigationOnClickListener {
+//            onBackPressed()
             val intent = Intent()
             intent.setClass(this, WelcomeActivity::class.java)
             startActivity(intent)
             finish()
         }
+//        val intent = intent
+//        val test = intent.getStringArrayListExtra("test")
+//        edt_email_login.setText(test[0])
+//        edt_password_login.setText(test[1])
         mAuth = FirebaseAuth.getInstance()
         //========
         btn_login.setOnClickListener {
@@ -31,8 +36,8 @@ class LoginActivity: AppCompatActivity() {
     }
 
     private fun loginUser() {
-        val email = edt_email_login.text.toString()
-        val password = edt_password_login.text.toString()
+        val email = edt_email_login.text.toString().trim()
+        val password = edt_password_login.text.toString().trim()
         if (email == ""){
             Toast.makeText(this,"Bạn chưa nhập Email !", Toast.LENGTH_LONG).show()
         }

@@ -11,10 +11,12 @@ import com.example.chatfun.R
 import com.example.chatfun.adapter.ViewPagerAdapter
 import com.example.chatfun.fragment.*
 import com.example.chatfun.model.Chat
+import com.example.chatfun.notifications.Token
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -97,17 +99,16 @@ class MainActivity : AppCompatActivity() {
                 viewPagerAdapter.addFragment(PersonalFragment(),"Personal")
                 viewPager.adapter = viewPagerAdapter
                 tabLayout.setupWithViewPager(viewPager)
-                tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_page)
-                tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_friend_page)
-                tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_chat_page)
-                tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_group)
-                tabLayout.getTabAt(4)!!.setIcon(R.drawable.ic_personal_page)
+                tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_baseline_home_24)
+                tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_baseline_people_24)
+                tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_baseline_message_24)
+                tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_baseline_group_work_24)
+                tabLayout.getTabAt(4)!!.setIcon(R.drawable.ic_baseline_person_24)
             }
             override fun onCancelled(p0: DatabaseError) {
 
             }
         })
-
         //        thay thế văn bản bằng biểu tượng.
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -144,6 +145,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
 //        auth = Firebase.auth
 //        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 //        viewPagerAdapter.addFragment(HomeFragment(),"Home")
@@ -152,6 +154,8 @@ class MainActivity : AppCompatActivity() {
 //        viewPagerAdapter.addFragment(MoreFragment(),"More")
 //        viewPager.adapter = viewPagerAdapter
 //        tab_layout.setupWithViewPager(viewPager)
+
+        updateToken(FirebaseInstanceId.getInstance().token)
     }
 
     // Receive the permissions request result
@@ -172,6 +176,13 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
+
+
+    private fun updateToken(token: String?) {
+        val ref = FirebaseDatabase.getInstance().reference.child("Tokens")
+        val token1 = Token(token!!)
+        ref.child(firebaseUser!!.uid).setValue(token1)
+    }
 
     override fun onStart() {
         super.onStart()

@@ -1,11 +1,14 @@
 package com.example.chatfun.adapter
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.os.Build
+import android.view.*
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.activity.PostDetailActivity
 import com.example.chatfun.R
@@ -13,6 +16,7 @@ import com.example.chatfun.activity.VisitUserProfileActivity
 import com.example.chatfun.model.Post
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.lang.Exception
@@ -36,7 +40,8 @@ class PostAdapter(
             LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false)
         return ViewHolder(row)
     }
-    override fun onBindViewHolder( holder: ViewHolder, position: Int) {
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //get data
         var postId: String? = mPosts[position].postId
         var postDes: String? = mPosts[position].postDes
@@ -131,6 +136,88 @@ class PostAdapter(
             intent.putExtra("visit_id",userIdPost)
             mContext.startActivity(intent)
         }
+
+        //delete
+        holder.icMore.setOnClickListener {
+            showMoreOption(holder.icMore, userIdPost, myUId, postId, postImage)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun showMoreOption(
+        icMore: ImageView,
+        userIdPost: String?,
+        myUId: String,
+        postId: String?,
+        postImage: String?
+    ) {
+        var options: Array<String>? = null
+        val builder = AlertDialog.Builder(mContext)
+        builder.setTitle("Choose Option")
+                options = arrayOf("Delete Post")
+                builder.setItems(options, object : DialogInterface.OnClickListener{
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        if (which==0){
+                            beginDelete(postId, postImage)
+                        } else {
+                        }
+                    }
+
+                })
+                builder.create().show()
+    }
+
+    private fun beginDelete(postId: String?, postImage: String?) {
+        if (postImage.equals("noImage")){
+            deleteNoImage(postId)
+        } else {
+            deleteWithImage(postId, postImage)
+        }
+    }
+
+    private fun deleteWithImage(postId: String?, postImage: String?) {
+        val pd = ProgressDialog(mContext)
+        pd.setMessage("Đang xóa")
+
+        val picRef = FirebaseStorage.getInstance().getReferenceFromUrl(postImage!!)
+        picRef.delete()
+            .addOnCompleteListener {
+                val query = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("postId").equalTo(postId)
+                query.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        for (ds in p0.children){
+                            ds.ref.removeValue()
+                        }
+                        Toast.makeText(mContext, "Delete Done",Toast.LENGTH_LONG).show()
+                        pd.dismiss()
+                    }
+                })
+            }
+
+    }
+
+    private fun deleteNoImage(postId: String?) {
+        val pd = ProgressDialog(mContext)
+        pd.setMessage("Đang xóa")
+        val query = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("postId").equalTo(postId)
+        query.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (ds in p0.children){
+                    ds.ref.removeValue()
+                }
+                Toast.makeText(mContext, "Delete Done",Toast.LENGTH_LONG).show()
+                pd.dismiss()
+            }
+        })
+
     }
 
     private fun setLikes(holder: PostAdapter.ViewHolder, postKey: String?) {
@@ -170,6 +257,7 @@ class PostAdapter(
         var imgUser: CircleImageView = itemView.findViewById(R.id.img_show_user_post)
 //        var imgAvatar: CircleImageView = itemView.findViewById(R.id.img_my_avatar)
         var imgPost: ImageView = itemView.findViewById(R.id.img_content_post)
+        var icMore: ImageView = itemView.findViewById(R.id.ic_more_post)
         var btnLike: Button = itemView.findViewById(R.id.btn_like)
         var btnComment: Button = itemView.findViewById(R.id.btn_comment)
 //        var btnShare: Button = itemView.findViewById(R.id.btn_share)

@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.EditGroupActivity"></activity>
+        <activity android:name=".activity.ViewFullSizeImageActivity"></activity>
+        <activity android:name=".activity.EditGroupActivity" />
         <activity android:name=".activity.GroupInfoActivity" />
         <activity android:name=".activity.AddParticipantGroupActivity" />
         <activity android:name=".activity.GroupChatActivity" />
@@ -30,8 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.AddPostActivity" />
         <activity android:name=".activity.AddGroupActivity" />
@@ -49,7 +50,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_SERVICE" />
             </intent-filter>
         </service>
     </application>

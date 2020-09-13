@@ -9,11 +9,12 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.FirebaseInstanceIdService
 import com.google.firebase.messaging.FirebaseMessagingService
 
-class MyFirebaseInstanceId: FirebaseMessagingService() {
-    override fun onNewToken(p0: String) {
-        super.onNewToken(p0)
+class MyFirebaseInstanceId: FirebaseInstanceIdService() {
+    override fun onTokenRefresh() {
+        super.onTokenRefresh()
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         val refreshToken = FirebaseInstanceId.getInstance().token
         if (firebaseUser!=null){

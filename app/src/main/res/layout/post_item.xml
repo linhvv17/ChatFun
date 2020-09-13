@@ -24,6 +24,7 @@
                 android:layout_height="50dp">
             </de.hdodenhof.circleimageview.CircleImageView>
             <LinearLayout
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -48,6 +49,13 @@
                 </TextView>
 
             </LinearLayout>
+            <ImageView
+                android:id="@+id/ic_more_post"
+                android:src="@drawable/ic_baseline_more_horiz_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </ImageView>
 
         </LinearLayout>
 
@@ -76,6 +84,12 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:src="@drawable/cover"/>
+        <VideoView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+        </VideoView>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

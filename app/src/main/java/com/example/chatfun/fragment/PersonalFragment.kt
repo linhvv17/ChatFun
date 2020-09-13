@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
+import com.example.chatfun.activity.ViewFullSizeImageActivity
+import com.example.chatfun.adapter.AddParticipantAdapter
 import com.example.chatfun.adapter.PostAdapter
 import com.example.chatfun.model.Post
 import com.example.chatfun.model.User
@@ -29,9 +31,11 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_add_participant_group.*
 import kotlinx.android.synthetic.main.personal_fragment.view.*
 
 class PersonalFragment: Fragment() {
+    private lateinit var firebaseAuth: FirebaseAuth
     //rc view
     private lateinit var mPostAdapter: PostAdapter
     private lateinit var mPosts: ArrayList<Post>
@@ -54,12 +58,12 @@ class PersonalFragment: Fragment() {
         firebaseUser = FirebaseAuth.getInstance().currentUser
         userReference = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
         storageRef = FirebaseStorage.getInstance().reference.child("User Images")
+        firebaseAuth = FirebaseAuth.getInstance()
 
         userReference!!.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
             }
-
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()){
                     val user = p0.getValue(User::class.java)
@@ -75,11 +79,77 @@ class PersonalFragment: Fragment() {
 
 
         view.img_avatar.setOnClickListener {
-            pickUpImage()
+            val options = arrayOf<CharSequence>("Xem Hình", "Thay đổi")
+                //dialog
+                var builder:AlertDialog.Builder = AlertDialog.Builder(context)
+                builder.setTitle("Chose Option")
+                //set option
+                builder.setItems(options
+                ) { dialog, which ->
+                    if (which==0){
+                        val ref = FirebaseDatabase.getInstance().getReference("Users")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+
+                            }
+                            override fun onDataChange(p0: DataSnapshot) {
+                                for (ds in p0.children) {
+                                    val modelUser = ds.getValue(User::class.java)
+                                    if (firebaseUser!!.uid == modelUser!!.getUid()) {
+                                        val myIntent = Intent(context, ViewFullSizeImageActivity::class.java)
+                                        myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                        //or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                                        myIntent.putExtra("url",modelUser.getProfile())
+                                        startActivity(myIntent)
+                                    }
+                                }
+                            }
+                        })
+                    }
+                    else if (which == 1){
+                        coverChecker = ""
+                        pickUpImage()
+                    }
+                }
+                builder.create().show()
+//            pickUpImage()
         }
         view.img_view_cover.setOnClickListener {
             coverChecker = "cover"
-            pickUpImage()
+//            pickUpImage()
+            val options = arrayOf<CharSequence>("Xem Hình", "Thay đổi")
+            //dialog
+            var builder:AlertDialog.Builder = AlertDialog.Builder(context)
+            builder.setTitle("Chose Option")
+            //set option
+            builder.setItems(options
+            ) { dialog, which ->
+                if (which==0){
+                    coverChecker = "cover"
+                    val ref = FirebaseDatabase.getInstance().getReference("Users")
+                    ref.addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+
+                        }
+
+                        override fun onDataChange(p0: DataSnapshot) {
+                            for (ds in p0.children) {
+                                val modelUser = ds.getValue(User::class.java)
+                                if (firebaseUser!!.uid.equals(modelUser!!.getUid())) {
+                                    val myIntent = Intent(context, ViewFullSizeImageActivity::class.java)
+                                    myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                                    myIntent.putExtra("url",modelUser.getCover())
+                                    startActivity(myIntent)
+                                }
+                            }
+                        }
+                    })
+                } else if (which == 1){
+                    coverChecker = "cover"
+                    pickUpImage()
+                }
+            }
+            builder.create().show()
         }
         view.ic_set_facebook.setOnClickListener {
             socialChecker = "facebook"
@@ -92,6 +162,9 @@ class PersonalFragment: Fragment() {
         view.ic_set_youtobe.setOnClickListener {
             socialChecker = "youtobe"
             setSocialLink()
+        }
+        view.tv_username_setting.setOnClickListener {
+            updateUserName()
         }
 
         //
@@ -107,6 +180,32 @@ class PersonalFragment: Fragment() {
         loadAllMyPost()
 
         return view
+    }
+
+    private fun updateUserName() {
+        val builder = AlertDialog.Builder(
+            context!!, R.style.Theme_AppCompat_DayNight_Dialog_Alert
+        )
+        val editText = EditText(context)
+        builder.setView(editText)
+        builder.setPositiveButton("Update",DialogInterface.OnClickListener {
+                dialog, which ->
+            val str = editText.text.toString()
+            if (str == ""){
+                Toast.makeText(context,"Please write something ....", Toast.LENGTH_LONG).show()
+            }
+            else{
+                val mapName = HashMap<String,Any>()
+                mapName["username"] = str
+                mapName["search"] = str
+                userReference!!.updateChildren(mapName)
+            }
+        })
+        builder.setNegativeButton("Cancel",DialogInterface.OnClickListener {
+                dialog, which ->
+            dialog.cancel()
+        })
+        builder.show()
     }
 
     private fun loadAllMyPost() {
@@ -245,7 +344,6 @@ class PersonalFragment: Fragment() {
                 if (task.isSuccessful){
                     val downloadUrl = task.result
                     val url = downloadUrl.toString()
-
                     if (coverChecker == "cover"){
                         val mapCoverImg = HashMap<String,Any>()
                         mapCoverImg["cover"] = url
@@ -260,9 +358,7 @@ class PersonalFragment: Fragment() {
                     }
                     progressBar.dismiss()
                 }
-
             }
-
         }
     }
 }

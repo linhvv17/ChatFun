@@ -97,7 +97,7 @@ class ChatFragment: Fragment() {
                         }
                     }
                 adapter = ChatListAdapter(context!!, userList!!)
-                rc_chat!!.adapter = adapter
+                recyclerView!!.adapter = adapter
                 //
                 for (i in 0 until userList!!.size){
                     lastMessage(userList[i].getUid())

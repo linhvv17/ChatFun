@@ -36,6 +36,7 @@ class FriendFragment : Fragment() {
     ): View? {
         mUsers = ArrayList<User>()
         loadData()
+//        retrieveAllUsers()
         val view =  inflater.inflate(R.layout.friend_fragment,container,false)
         recyclerView = view.findViewById(R.id.rc_search)
         val layoutManager = LinearLayoutManager(activity)
@@ -43,8 +44,8 @@ class FriendFragment : Fragment() {
         recyclerView!!.layoutManager = layoutManager
         recyclerView!!.setHasFixedSize(true)
         searchEdtText = view.findViewById(R.id.edt_search_user)
-        mUserAdapter = UserAdapter(context, mUsers!! as ArrayList<User>,false)
-        recyclerView!!.adapter = mUserAdapter
+//        mUserAdapter = UserAdapter(context, mUsers!! as ArrayList<User>,false)
+//        recyclerView!!.adapter = mUserAdapter
 
         searchEdtText!!.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
@@ -68,7 +69,7 @@ class FriendFragment : Fragment() {
     }
 
     private fun retrieveAllUsers(){
-        var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
+        var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid!!
         val refUsers = FirebaseDatabase.getInstance().reference.child("Users")
         refUsers.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -83,7 +84,7 @@ class FriendFragment : Fragment() {
                             (mUsers as ArrayList<User>).add(user)
                         }
                     }
-                    mUserAdapter = UserAdapter(context!!, mUsers as ArrayList<User>,false)
+                    mUserAdapter = UserAdapter(context!!, mUsers as ArrayList<User>,false)!!
                     mUserAdapter!!.notifyDataSetChanged()
                     recyclerView!!.adapter = mUserAdapter
                 }

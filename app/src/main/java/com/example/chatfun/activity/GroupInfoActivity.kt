@@ -168,7 +168,9 @@ class GroupInfoActivity : AppCompatActivity() {
                 override fun onCancelled(p0: DatabaseError) {
                 }
                 override fun onDataChange(p0: DataSnapshot) {
+                    userList.clear()
                     for (ds in p0.children){
+//                        userList.clear()
                         //lay uid tu group
                         val uid = ""+ds.child("uid").value
                         //lay thong tin user
@@ -178,8 +180,8 @@ class GroupInfoActivity : AppCompatActivity() {
                                 override fun onCancelled(p0: DatabaseError) {
 
                                 }
-
                                 override fun onDataChange(p0: DataSnapshot) {
+//                                    userList.clear()
                                     for (ds in p0.children){
 //                                        userList.clear()
                                         //set adater
@@ -247,7 +249,6 @@ class GroupInfoActivity : AppCompatActivity() {
                 override fun onCancelled(p0: DatabaseError) {
 
                 }
-
                 override fun onDataChange(p0: DataSnapshot) {
                     for (ds in p0.children) {
                         val name = ""+ds.child("username").value

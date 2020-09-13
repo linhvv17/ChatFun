@@ -8,12 +8,14 @@
     tools:context=".activity.MainActivity"
     android:background="#FFFFFF">
     <com.google.android.material.appbar.AppBarLayout
+        android:background="#ffffff"
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Widget.MaterialComponents.BottomAppBar">
 
         <androidx.appcompat.widget.Toolbar
+            android:backgroundTint="#03A9F4"
             android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -23,7 +25,7 @@
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_chat_page"
+                android:src="@drawable/bellerin"
                 android:id="@+id/img_view_profile"
                 android:layout_width="50dp"
                 android:layout_height="match_parent">
@@ -45,6 +47,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
+            android:backgroundTint="#03A9F4"
             android:id="@+id/tab_layout"
             style="@style/Widget.Design.TabLayout"
             android:layout_width="match_parent"

@@ -1,23 +1,25 @@
 package com.example.chatfun.adapter
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
+import com.example.chatfun.activity.ViewFullSizeImageActivity
 import com.example.chatfun.model.Chat
-import com.example.chatfun.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_post_detail.*
-import java.lang.Exception
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ChatAdapter(
@@ -27,7 +29,6 @@ class ChatAdapter(
     private val mContext : Context
     private val mChatList: ArrayList<Chat>
     private val urlImg : String
-    private var zoomOut: Boolean = false
     val MSG_TYPE_LEFT = 0
     val MSG_TYPE_RIGHT = 1
     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -81,6 +82,30 @@ class ChatAdapter(
                     holder.show_send_image_message!!.visibility = View.VISIBLE
                     Picasso.get().load(chat.getUrl()).into(holder.show_send_image_message)
                     holder.time_mess!!.text = mTime
+                    holder.show_send_image_message!!.setOnClickListener {
+//                        Toast.makeText(mContext,"Click tịn nhắn",Toast.LENGTH_LONG).show()
+//                        val options = arrayOf<CharSequence>("View Full Size","Delete", "Cancel")
+////                        //dialog
+////                        var builder :AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
+////                        builder.setTitle("Chose Option")
+////                        //set option
+////                        builder.setItems(options, object : DialogInterface.OnClickListener {
+////                            override fun onClick(dialog: DialogInterface?, which: Int) {
+////                                if (which==0){
+                                    val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
+                                    myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                                    myIntent.putExtra("url",chat.getUrl())
+                                    mContext.startActivity(myIntent)
+////                                }
+////                                if (which==1){
+////                                    deleteMessage(holder,position)
+////                                }
+////
+////                            }
+////                        })
+////                        builder.show()
+                    }
+
 //
                 }
                 //người nhận
@@ -89,6 +114,28 @@ class ChatAdapter(
                     holder.show_image_message_receiver!!.visibility = View.VISIBLE
                     Picasso.get().load(chat.getUrl()).into(holder.show_image_message_receiver)
                     holder.time_mess!!.text = mTime
+                    holder.show_image_message_receiver!!.setOnClickListener {
+//                        Toast.makeText(mContext,"Click tịn nhắn",Toast.LENGTH_LONG).show()
+                        val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
+                        myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                        myIntent.putExtra("url",chat.getUrl())
+                        mContext.startActivity(myIntent)
+//                        val options = arrayOf<CharSequence>("View Full Size", "Cancel")
+//                        //dialog
+//                        var builder :AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
+//                        builder.setTitle("Chose Option")
+//                        //set option
+//                        builder.setItems(options, object : DialogInterface.OnClickListener {
+//                            override fun onClick(dialog: DialogInterface?, which: Int) {
+//                                if (which==0){
+//                                    val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
+//                                    myIntent.putExtra("url",chat.getUrl())
+//                                    mContext.startActivity(myIntent)
+//                                }
+//                            }
+//                        })
+//                        builder.create().show()
+                    }
                 }
 
             }
@@ -96,6 +143,23 @@ class ChatAdapter(
         else{
                 holder.show_text_message!!.text = chat.getMessage().toString()
                 holder.time_mess!!.text = mTime
+//
+                holder.show_text_message!!.setOnClickListener {
+                    Toast.makeText(mContext,"Click tịn nhắn",Toast.LENGTH_LONG).show()
+//                val options = arrayOf<CharSequence>("Delete Message", "Cancel")
+//                //dialog
+//                var builder:AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
+//                builder.setTitle("Chose Option")
+//                //set option
+//                builder.setItems(options
+//                ) { dialog, which ->
+//                    if (which==0){
+//                        deleteMessage(holder, position)
+//                    }
+//                }
+//                    builder.create().show()
+                }
+
             }
         //send and seen
         if (position == mChatList.size -1){
@@ -121,7 +185,6 @@ class ChatAdapter(
         {
             holder.tv_seen!!.visibility = GONE
         }
-
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -132,6 +195,7 @@ class ChatAdapter(
         var time_mess : TextView? = null
         var show_send_image_message : ImageView? = null
         var show_image_message_receiver : ImageView? = null
+        var ic_more_message : ImageView? = null
         init {
             img_profile_receiver = itemView.findViewById(R.id.img_profile_receiver)
             show_text_message = itemView.findViewById(R.id.show_text_message)
@@ -139,6 +203,7 @@ class ChatAdapter(
             time_mess = itemView.findViewById(R.id.time_mess)
             show_send_image_message = itemView.findViewById(R.id.show_send_image_message)
             show_image_message_receiver = itemView.findViewById(R.id.show_image_message_receiver)
+            ic_more_message = itemView.findViewById(R.id.ic_more_message)
         }
     }
     override fun getItemViewType(position: Int): Int {
@@ -152,4 +217,18 @@ class ChatAdapter(
     /*override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): ViewHolder {
 
     }*/
+
+    private fun deleteMessage(holder: ViewHolder, position: Int){
+        val ref = FirebaseDatabase.getInstance().reference.child("Chats")
+            .child(mChatList[position].getMessageId()!!)
+            .removeValue()
+            .addOnCompleteListener {
+                if (it.isSuccessful){
+                    Toast.makeText(mContext,"Xóa thành công",Toast.LENGTH_LONG).show()
+                } else{
+                    Toast.makeText(mContext,"Xóa Thất  Bại",Toast.LENGTH_LONG).show()
+                }
+            }
+
+    }
 }

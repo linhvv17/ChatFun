@@ -80,7 +80,7 @@ class MyFirebaseMessaging : FirebaseMessagingService() {
         val intent = Intent(this, MessageChatActivity::class.java)
 
         val bundle = Bundle()
-        bundle.putString("userid", user)
+        bundle.putString("visit_id", user)
         intent.putExtras(bundle)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
@@ -96,13 +96,12 @@ class MyFirebaseMessaging : FirebaseMessagingService() {
             .setSound(defaultSound)
             .setAutoCancel(true)
 
-        val noti= getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager
+        val noti : NotificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager
 
         var i =0
         if (j>0){
             i = j
         }
-
         noti.notify(i, builder.build())
 
     }
