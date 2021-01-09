@@ -1,6 +1,5 @@
 package com.example.chatfun.adapter
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,7 +12,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
 import com.example.chatfun.activity.ViewFullSizeImageActivity
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.Chat
+import com.example.chatfun.model.RSA
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -25,13 +26,19 @@ import java.util.*
 class ChatAdapter(
     mContext: Context,
     mChatList: ArrayList<Chat>,
-    urlImg: String) : RecyclerView.Adapter<ChatAdapter.ViewHolder?>(){
+    urlImg: String
+) : RecyclerView.Adapter<ChatAdapter.ViewHolder?>(){
     private val mContext : Context
     private val mChatList: ArrayList<Chat>
     private val urlImg : String
-    val MSG_TYPE_LEFT = 0
+    private val MSG_TYPE_LEFT = 0
     val MSG_TYPE_RIGHT = 1
     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+
+
+
+
+
     init {
         this.mContext = mContext
         this.mChatList = mChatList
@@ -43,13 +50,13 @@ class ChatAdapter(
         return if (position == MSG_TYPE_RIGHT)
         {
             val view = LayoutInflater.from(mContext)
-                .inflate(R.layout.message_item_right,parent, false)
+                .inflate(R.layout.message_item_right, parent, false)
             ViewHolder(view)
         }
         else
         {
             val view = LayoutInflater.from(mContext)
-                .inflate(R.layout.message_item_left,parent, false)
+                .inflate(R.layout.message_item_left, parent, false)
             ViewHolder(view)
         }
     }
@@ -66,10 +73,10 @@ class ChatAdapter(
         if (messTime != null) {
             calendar.timeInMillis = messTime.toLong()
         }
-        val mTime: String = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa",calendar).toString()
+        val mTime: String = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString()
         try {
             Picasso.get().load(urlImg).placeholder(R.drawable.bellerin).into(holder.img_profile_receiver)
-        }catch(e: Exception) {
+        }catch (e: Exception) {
 
         }
         //nếu gửi ảnh
@@ -92,9 +99,12 @@ class ChatAdapter(
 ////                        builder.setItems(options, object : DialogInterface.OnClickListener {
 ////                            override fun onClick(dialog: DialogInterface?, which: Int) {
 ////                                if (which==0){
-                                    val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
+                                    val myIntent = Intent(
+                                        mContext,
+                                        ViewFullSizeImageActivity::class.java
+                                    )
                                     myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
-                                    myIntent.putExtra("url",chat.getUrl())
+                                    myIntent.putExtra("url", chat.getUrl())
                                     mContext.startActivity(myIntent)
 ////                                }
 ////                                if (which==1){
@@ -115,70 +125,31 @@ class ChatAdapter(
                     Picasso.get().load(chat.getUrl()).into(holder.show_image_message_receiver)
                     holder.time_mess!!.text = mTime
                     holder.show_image_message_receiver!!.setOnClickListener {
-//                        Toast.makeText(mContext,"Click tịn nhắn",Toast.LENGTH_LONG).show()
                         val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
                         myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
-                        myIntent.putExtra("url",chat.getUrl())
+                        myIntent.putExtra("url", chat.getUrl())
                         mContext.startActivity(myIntent)
-//                        val options = arrayOf<CharSequence>("View Full Size", "Cancel")
-//                        //dialog
-//                        var builder :AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
-//                        builder.setTitle("Chose Option")
-//                        //set option
-//                        builder.setItems(options, object : DialogInterface.OnClickListener {
-//                            override fun onClick(dialog: DialogInterface?, which: Int) {
-//                                if (which==0){
-//                                    val myIntent = Intent(mContext, ViewFullSizeImageActivity::class.java)
-//                                    myIntent.putExtra("url",chat.getUrl())
-//                                    mContext.startActivity(myIntent)
-//                                }
-//                            }
-//                        })
-//                        builder.create().show()
                     }
                 }
 
             }
             //gửi text
         else{
-                holder.show_text_message!!.text = chat.getMessage().toString()
+
+            val message: String = AESHelper().decrypt(chat.getMessage().toString())!!
+                holder.show_text_message!!.text = message
                 holder.time_mess!!.text = mTime
 //
                 holder.show_text_message!!.setOnClickListener {
-                    Toast.makeText(mContext,"Click tịn nhắn",Toast.LENGTH_LONG).show()
-//                val options = arrayOf<CharSequence>("Delete Message", "Cancel")
-//                //dialog
-//                var builder:AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
-//                builder.setTitle("Chose Option")
-//                //set option
-//                builder.setItems(options
-//                ) { dialog, which ->
-//                    if (which==0){
-//                        deleteMessage(holder, position)
-//                    }
-//                }
-//                    builder.create().show()
+                    Toast.makeText(mContext, "Click tịn nhắn", Toast.LENGTH_LONG).show()
                 }
-
             }
         //send and seen
         if (position == mChatList.size -1){
             if (chat.isIsSeen()!!){
                 holder.tv_seen!!.text = "Seen"
-//                if (chat.getMessage() == "sen your an image" && chat.getUrl() != "")
-//                {
-//                    val lp: RelativeLayout.LayoutParams? = holder.tv_seen!!.layoutParams as RelativeLayout.LayoutParams?
-//                    lp!!.setMargins(0,250,10,0)
-//                    holder.tv_seen!!.layoutParams = lp
-//                }
             } else{
                 holder.tv_seen!!.text = "Sent"
-//                if (chat.getMessage() == "sen your an image" && chat.getUrl() != "")
-//                {
-//                    val lp: RelativeLayout.LayoutParams? = holder.tv_seen!!.layoutParams as RelativeLayout.LayoutParams?
-//                    lp!!.setMargins(0,250,10,0)
-//                    holder.tv_seen!!.layoutParams = lp
-//                }
             }
         }
         else
@@ -224,11 +195,25 @@ class ChatAdapter(
             .removeValue()
             .addOnCompleteListener {
                 if (it.isSuccessful){
-                    Toast.makeText(mContext,"Xóa thành công",Toast.LENGTH_LONG).show()
+                    Toast.makeText(mContext, "Xóa thành công", Toast.LENGTH_LONG).show()
                 } else{
-                    Toast.makeText(mContext,"Xóa Thất  Bại",Toast.LENGTH_LONG).show()
+                    Toast.makeText(mContext, "Xóa Thất  Bại", Toast.LENGTH_LONG).show()
                 }
             }
 
+    }
+
+    private fun decrypt(message: String):String{
+
+         var decodeData : ByteArray? = null
+         val keyMap : Map<String, Any>? = RSA().initKey()
+//         var publicKey = RSA().getPublicKey(keyMap).toString()
+         var privateKey = RSA().getPrivateKey(keyMap).toString()
+        val publicKey = privateKey
+
+        val rsaData: ByteArray = message.toByteArray()
+        decodeData = RSA().encryptByPrivateKey(rsaData, publicKey)
+
+        return String(decodeData!!)
     }
 }

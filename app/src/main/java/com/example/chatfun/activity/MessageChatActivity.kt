@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.InterfaceApp.APIService2
 import com.example.chatfun.R
 import com.example.chatfun.adapter.ChatAdapter
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.Chat
+import com.example.chatfun.model.RSA
 import com.example.chatfun.model.User
 import com.example.chatfun.notifications.*
-import com.example.chatfun.notifications.Client.Client.getClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -26,7 +27,9 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_message_chat.*
 import retrofit2.Call
 import retrofit2.Response
-import java.util.ArrayList
+import java.math.BigInteger
+import java.util.*
+import kotlin.collections.HashMap
 
 class MessageChatActivity : AppCompatActivity() {
      var userIdVisit: String = ""
@@ -37,6 +40,10 @@ class MessageChatActivity : AppCompatActivity() {
      lateinit var rcMessageChat : RecyclerView
      var notify = false
      var APIService2 : APIService2? = null
+
+    private var publicKey = ""
+    private var privateKey = ""
+    private var encodeData : ByteArray? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,13 +82,21 @@ class MessageChatActivity : AppCompatActivity() {
                 }
             }
         )
+
+        val keyMap : Map<String,Any>? = RSA().initKey()
+        publicKey = RSA().getPublicKey(keyMap).toString()
+        privateKey = RSA().getPrivateKey(keyMap).toString()
+
+
         send_message_btn.setOnClickListener {
             notify = true
             val message = text_message_chat.text.toString()
             if (message == ""){
                 Toast.makeText(this, "Please write message! ", Toast.LENGTH_LONG).show()
             }else{
-                sendMessageToReceiverUser(firebaseUser!!.uid, userIdVisit, message)
+                // đoạn code mã hóa
+//                AESHelper.encrypt(email)
+                sendMessageToReceiverUser(firebaseUser!!.uid, userIdVisit, AESHelper().encrypt(message)!!)
             }
             //gửi xong reset lại
             text_message_chat.setText("")
@@ -94,6 +109,14 @@ class MessageChatActivity : AppCompatActivity() {
             startActivityForResult(Intent.createChooser(intent, "Pick Image"), 200)
         }
         seenMessage(userIdVisit)
+    }
+
+
+    private fun encrypt(message: String):String{
+        val rsaData: ByteArray = message.toByteArray()
+        encodeData = RSA().encryptByPublicKey(rsaData,publicKey)
+
+        return BigInteger(1, encodeData).toString()
     }
 
     private fun sendMessageToReceiverUser(
@@ -275,8 +298,10 @@ class MessageChatActivity : AppCompatActivity() {
                 for (dataSnapshot in p0.children)
                 {
                     val chat = dataSnapshot.getValue(Chat::class.java)
-                    if (chat!!.getReceiver() == senderId && chat!!.getSender() == receiverId ||
-                        chat!!.getSender() == senderId && chat!!.getReceiver() == receiverId
+                    if (chat!!.getReceiver() == senderId
+                        && chat!!.getSender() == receiverId ||
+                        chat!!.getSender() == senderId
+                        && chat!!.getReceiver() == receiverId
                     )
                     {
                         (mChatList as ArrayList<Chat>).add(chat)

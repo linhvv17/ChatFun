@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.activity.MessageChatActivity
 import com.example.chatfun.R
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
@@ -59,7 +60,8 @@ class ChatListAdapter(
             holder.tvLastMessage.visibility = View.GONE
         } else {
             holder.tvLastMessage.visibility = View.VISIBLE
-            holder.tvLastMessage.text = lastMessage
+            val message: String = AESHelper().decrypt(lastMessage)!!
+            holder.tvLastMessage.text = message
             //convert time to dd/mm/yyyy hh:mm am/pm
             val calendar = Calendar.getInstance(Locale.getDefault())
             if (lastMessageTime != null) {

@@ -1,5 +1,6 @@
 package com.example.chatfun.adapter
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -9,10 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatfun.activity.MessageChatActivity
 import com.example.chatfun.R
-import com.example.chatfun.model.User
+import com.example.chatfun.activity.MessageChatActivity
 import com.example.chatfun.activity.VisitUserProfileActivity
+import com.example.chatfun.model.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -37,7 +38,7 @@ class UserAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // infalater
         val view = LayoutInflater.from(mContext)
-            .inflate(R.layout.user_search_item_layout,parent, false)
+            .inflate(R.layout.user_search_item_layout, parent, false)
         return ViewHolder(view)
     }
 
@@ -56,16 +57,18 @@ class UserAdapter(
             )
             val builder = AlertDialog.Builder(mContext)
             builder.setTitle("What do you want?")
-            builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
-                if (position == 0){
+            builder.setItems(options, DialogInterface.OnClickListener { dialog, position ->
+                if (position == 0) {
                     val intent = Intent(mContext!!, MessageChatActivity::class.java)
-                    intent.putExtra("visit_id",user.getUid())
+                    intent.putExtra("visit_id", user.getUid())
                     mContext.startActivity(intent)
+//                    (mContext as Activity).finish()
                 }
-                if (position == 1){
+                if (position == 1) {
                     val intent = Intent(mContext!!, VisitUserProfileActivity::class.java)
-                    intent.putExtra("visit_id",user.getUid())
+                    intent.putExtra("visit_id", user.getUid())
                     mContext.startActivity(intent)
+//                    (mContext as Activity).finish()
                 }
             })
 

@@ -1,10 +1,17 @@
 package com.example.chatfun.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.example.chatfun.R
@@ -12,6 +19,7 @@ import com.example.chatfun.adapter.ViewPagerAdapter
 import com.example.chatfun.fragment.*
 import com.example.chatfun.model.Chat
 import com.example.chatfun.notifications.Token
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -28,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private var refUsers: DatabaseReference? = null
     private  var firebaseUser:FirebaseUser? = null
 
+    private var isLockScreen: Boolean? = null
 //    private val PermissionsRequestCode = 438
 //    private lateinit var managePermissions: ManagePermissions
 
@@ -35,6 +44,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //get SharedPreferences from getSharedPreferences("name_file", MODE_PRIVATE)
+        val shared : SharedPreferences = this.getSharedPreferences("lock",MODE_PRIVATE)
+//Using getXXX- with XX is type date you wrote to file "name_file"
+        isLockScreen = shared.getBoolean("lock",false)
+//        Log.d("ENCRYPT", ASE().encrypt("ABCD"))
+//        Log.d("ENCRYPT", ASE().decrypt("Gg787RF91GZIXp/GIHHfew=="))
 
         //check permission
         // Initialize a list of required permissions to request runtime
@@ -58,7 +73,9 @@ class MainActivity : AppCompatActivity() {
         //==========
         mFirebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = FirebaseAuth.getInstance().currentUser
+
         refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
+
         //========
         initToolbar()
         val tabLayout: TabLayout = findViewById(R.id.tab_layout)
@@ -73,8 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         val reference = FirebaseDatabase.getInstance().reference.child("Chats")
 
-        reference!!.addValueEventListener(object : ValueEventListener
-        {
+        reference!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 val viewPagerAdapter =
                     ViewPagerAdapter(
@@ -83,20 +99,19 @@ class MainActivity : AppCompatActivity() {
                 var countUnReadMessage = 0
                 for (dataSnapshot in p0.children) {
                     val chat = dataSnapshot.getValue(Chat::class.java)
-                    if (chat!!.getReceiver().equals(firebaseUser!!.uid)|| !chat.isIsSeen()!!){
-                        countUnReadMessage+=1
+                    if (chat!!.getReceiver().equals(firebaseUser!!.uid) || !chat.isIsSeen()!!) {
+                        countUnReadMessage += 1
                     }
                 }
-                viewPagerAdapter.addFragment(HomeFragment(),"Home")
-                viewPagerAdapter.addFragment(FriendFragment(),"Friend")
-                if (countUnReadMessage == 0){
-                    viewPagerAdapter.addFragment(ChatFragment(),"Chat")
+                viewPagerAdapter.addFragment(HomeFragment(), "Home")
+                viewPagerAdapter.addFragment(FriendFragment(), "Friend")
+                if (countUnReadMessage == 0) {
+                    viewPagerAdapter.addFragment(ChatFragment(), "Chat")
+                } else {
+                    viewPagerAdapter.addFragment(ChatFragment(), "($countUnReadMessage) Chat")
                 }
-                else{
-                    viewPagerAdapter.addFragment(ChatFragment(),"($countUnReadMessage) Chat")
-                }
-                viewPagerAdapter.addFragment(GroupFragment(),"Group")
-                viewPagerAdapter.addFragment(PersonalFragment(),"Personal")
+                viewPagerAdapter.addFragment(GroupFragment(), "Group")
+                viewPagerAdapter.addFragment(PersonalFragment(), "Personal")
                 viewPager.adapter = viewPagerAdapter
                 tabLayout.setupWithViewPager(viewPager)
                 tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_baseline_home_24)
@@ -105,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                 tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_baseline_group_work_24)
                 tabLayout.getTabAt(4)!!.setIcon(R.drawable.ic_baseline_person_24)
             }
+
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -128,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        refUsers!!.addValueEventListener(object : ValueEventListener{
+        refUsers!!.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -207,15 +223,136 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.action_logout -> {
-                FirebaseAuth.getInstance().signOut()
-                val intent = Intent()
-                intent.setClass(this, WelcomeActivity::class.java)
-                startActivity(intent)
-                finish()
+
+                val options = arrayOf<CharSequence>("Log Out", "Reset Password","Set Pass Lock","Enable LockScreen","Disable LockScreen")
+                //dialog
+                var builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder.setTitle("Chose Option")
+                //set option
+                builder.setItems(
+                    options
+                ) { dialog, which ->
+                    if (which == 0) {
+                        FirebaseAuth.getInstance().signOut()
+                        val intent = Intent()
+                        intent.setClass(this, WelcomeActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else if (which == 1) {
+                        updatePassWord()
+                    } else if (which == 2) {
+                        setPassLockScreen()
+                    } else if (which == 3) {
+                        enableLockScreen()
+                    } else if (which == 4) {
+                        disableLockScreen()
+                    }
+                }
+                builder.create().show()
+
                 return true
             }
         }
         return false
+    }
+
+    private fun disableLockScreen() {
+        isLockScreen = false
+        //Create a object SharedPreferences from getSharedPreferences("name_file",MODE_PRIVATE) of Context
+        val pref : SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE);
+        //Using putXXX - with XXX is type data you want to write like: putString, putInt...   from      Editor object
+        val editor = pref.edit();
+        editor.putBoolean("lock",false)
+        //finally, when you are done saving the values, call the commit() method.
+        editor.commit()
+    }
+
+    private fun enableLockScreen() {
+        isLockScreen = true
+        //Create a object SharedPreferences from getSharedPreferences("name_file",MODE_PRIVATE) of Context
+        val pref : SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE);
+        //Using putXXX - with XXX is type data you want to write like: putString, putInt...   from      Editor object
+        val editor = pref.edit();
+        editor.putBoolean("lock",true)
+        //finally, when you are done saving the values, call the commit() method.
+        editor.commit()
+    }
+
+    private fun setPassLockScreen() {
+
+        val builder = AlertDialog.Builder(
+            this, R.style.Theme_AppCompat_DayNight_Dialog_Alert
+        )
+        val editText = EditText(this)
+        builder.setView(editText)
+        builder.setPositiveButton("Update", DialogInterface.OnClickListener { dialog, which ->
+            val str = editText.text.toString()
+            if (str == "") {
+                Toast.makeText(this, "Please write something ....", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+//                progressBar.visibility = View.VISIBLE
+
+                //Create a object SharedPreferences from getSharedPreferences("name_file",MODE_PRIVATE) of Context
+                val pref : SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE);
+                //Using putXXX - with XXX is type data you want to write like: putString, putInt...   from      Editor object
+                val editor = pref.edit();
+                editor.putString("pass",str)
+                //finally, when you are done saving the values, call the commit() method.
+                editor.commit()
+            }
+        })
+        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+            dialog.cancel()
+        })
+        builder.show()
+
+    }
+
+    private fun updatePassWord() {
+        val builder = AlertDialog.Builder(
+            this, R.style.Theme_AppCompat_DayNight_Dialog_Alert
+        )
+        val editText = EditText(this)
+        builder.setView(editText)
+        builder.setPositiveButton("Update", DialogInterface.OnClickListener { dialog, which ->
+            val str = editText.text.toString()
+            if (str == "") {
+                Toast.makeText(this, "Please write something ....", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                progressBar.visibility = View.VISIBLE
+                firebaseUser!!.updatePassword(editText.text.toString())
+                    .addOnCompleteListener(OnCompleteListener<Void?> { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Password is updated, sign in with new password!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+//                            signOut()
+                            progressBar.visibility = View.GONE
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Failed to update password!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            progressBar.visibility = View.GONE
+                        }
+                    })
+
+            }
+        })
+        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+            dialog.cancel()
+        })
+        builder.show()
+    }
+
+    //sign out method
+    fun signOut() {
+        mFirebaseAuth.signOut()
     }
     private fun initToolbar(){
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
@@ -223,4 +360,25 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.title = ""
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.d("onPause", "onPause")
+        if (isLockScreen!!){
+            val intent = Intent()
+            intent.setClass(this, LockScreenActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+//        finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("onResume", "onResume")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("onRestart", "onRestart")
+    }
 }

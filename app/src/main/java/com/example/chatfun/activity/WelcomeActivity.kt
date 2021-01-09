@@ -36,4 +36,8 @@ class WelcomeActivity:AppCompatActivity() {
 //            finish()
 //        }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }
