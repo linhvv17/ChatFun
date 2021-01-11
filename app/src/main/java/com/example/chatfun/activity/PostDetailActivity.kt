@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
 import com.example.chatfun.adapter.CommentAdapter
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.Comment
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -196,7 +197,7 @@ class PostDetailActivity : AppCompatActivity() {
         val postHashMap = HashMap<Any?, String?>()
         //post
         postHashMap["commentId"] = timeStamp
-        postHashMap["commentContent"] = comment
+        postHashMap["commentContent"] = AESHelper().encrypt(comment)!!
         postHashMap["commentTime"] = timeStamp
         postHashMap["userCommentId"] = myId
         postHashMap["userCommentName"] = myName
@@ -310,8 +311,8 @@ class PostDetailActivity : AppCompatActivity() {
                     tv_show_username_post_detail.text = uName
                     tv_time_post_detail.text = pTime
                     Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(img_show_user_post)
-                    tv_show_title_post_detail.text = postTitle
-                    tv_show_description_post_detail.text = postDes
+                    tv_show_title_post_detail.text = AESHelper().decrypt(postTitle)!!
+                    tv_show_description_post_detail.text = AESHelper().decrypt(postDes)!!
                     tv_count_like_detail.text = "$postLikes Likes"
                     tv_count_comment_detail.text = "$commentCount Comments"
                     //image post

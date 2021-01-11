@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.activity.PostDetailActivity
 import com.example.chatfun.R
 import com.example.chatfun.activity.VisitUserProfileActivity
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.Post
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -64,8 +65,8 @@ class PostAdapter(
         //set data
         holder.tvUserName.text = userName
         holder.tvTime.text = pTime
-        holder.tvTitle.text = postTitle
-        holder.tvDescr.text = postDes
+        holder.tvTitle.text = AESHelper().decrypt(postTitle)!!
+        holder.tvDescr.text = AESHelper().decrypt(postDes)!!
         holder.tvLike.text = "$postLikes Likes"
         holder.tvComment.text = "$postComments Comments"
         Picasso.get().load(userProfile).placeholder(R.drawable.profile).into(holder.imgUser)

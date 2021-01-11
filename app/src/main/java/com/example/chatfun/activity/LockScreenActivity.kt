@@ -1,6 +1,5 @@
 package com.example.chatfun.activity
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +31,7 @@ class LockScreenActivity : AppCompatActivity() {
 
         mPinLockView =  findViewById(R.id.pin_lock_view)
 
-        mIndicatorDots = findViewById(R.id.indicator_dots) as IndicatorDots
+        mIndicatorDots = findViewById<IndicatorDots>(R.id.indicator_dots)
 
         mPinLockView!!.setPinLockListener(mPinLockListener)
 

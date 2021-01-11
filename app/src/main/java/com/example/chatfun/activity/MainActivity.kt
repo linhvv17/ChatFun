@@ -28,6 +28,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
 //    private lateinit var auth: FirebaseAuth
 //    private lateinit var viewPagerAdapter: ViewPagerAdapter
@@ -45,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //get SharedPreferences from getSharedPreferences("name_file", MODE_PRIVATE)
-        val shared : SharedPreferences = this.getSharedPreferences("lock",MODE_PRIVATE)
+        val shared : SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE)
 //Using getXXX- with XX is type date you wrote to file "name_file"
-        isLockScreen = shared.getBoolean("lock",false)
+        isLockScreen = shared.getBoolean("lock", false)
 //        Log.d("ENCRYPT", ASE().encrypt("ABCD"))
 //        Log.d("ENCRYPT", ASE().decrypt("Gg787RF91GZIXp/GIHHfew=="))
 
@@ -224,7 +225,13 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.action_logout -> {
 
-                val options = arrayOf<CharSequence>("Log Out", "Reset Password","Set Pass Lock","Enable LockScreen","Disable LockScreen")
+                val options = arrayOf<CharSequence>(
+                    "Log Out",
+                    "Reset Password",
+                    "Set Pass Lock",
+                    "Enable LockScreen",
+                    "Disable LockScreen"
+                )
                 //dialog
                 var builder: AlertDialog.Builder = AlertDialog.Builder(this)
                 builder.setTitle("Chose Option")
@@ -262,7 +269,7 @@ class MainActivity : AppCompatActivity() {
         val pref : SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE);
         //Using putXXX - with XXX is type data you want to write like: putString, putInt...   from      Editor object
         val editor = pref.edit();
-        editor.putBoolean("lock",false)
+        editor.putBoolean("lock", false)
         //finally, when you are done saving the values, call the commit() method.
         editor.commit()
     }
@@ -273,7 +280,7 @@ class MainActivity : AppCompatActivity() {
         val pref : SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE);
         //Using putXXX - with XXX is type data you want to write like: putString, putInt...   from      Editor object
         val editor = pref.edit();
-        editor.putBoolean("lock",true)
+        editor.putBoolean("lock", true)
         //finally, when you are done saving the values, call the commit() method.
         editor.commit()
     }
@@ -294,10 +301,10 @@ class MainActivity : AppCompatActivity() {
 //                progressBar.visibility = View.VISIBLE
 
                 //Create a object SharedPreferences from getSharedPreferences("name_file",MODE_PRIVATE) of Context
-                val pref : SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE);
+                val pref: SharedPreferences = this.getSharedPreferences("lock", MODE_PRIVATE);
                 //Using putXXX - with XXX is type data you want to write like: putString, putInt...   from      Editor object
                 val editor = pref.edit();
-                editor.putString("pass",str)
+                editor.putString("pass", str)
                 //finally, when you are done saving the values, call the commit() method.
                 editor.commit()
             }
@@ -359,6 +366,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
     }
+
+//    private fun checkScreenOff(){
+//        if (this.getSystemService(Context.KEYGUARD_SERVICE).inKeyguardRestrictedInputMode()) {
+//            //locked
+//        } else {
+//            //not locked
+//        }
+//    }
+
+
 
     override fun onPause() {
         super.onPause()

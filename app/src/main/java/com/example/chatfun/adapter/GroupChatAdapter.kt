@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
 import com.example.chatfun.activity.ViewFullSizeImageActivity
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.GroupChat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -81,7 +82,7 @@ class GroupChatAdapter(
             //mess text
             holder.messageIv!!.visibility = View.GONE
             holder.messageTv!!.visibility = View.VISIBLE
-            holder.messageTv!!.text = message
+            holder.messageTv!!.text = AESHelper().decrypt(message)!!
         } else {
             //mess image
             holder.messageIv!!.visibility = View.VISIBLE

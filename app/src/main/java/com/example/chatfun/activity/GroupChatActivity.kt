@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.chatfun.R
 import com.example.chatfun.adapter.GroupChatAdapter
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.GroupChat
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnFailureListener
@@ -76,7 +77,7 @@ class GroupChatActivity : AppCompatActivity() {
             if (message.isEmpty()){
                 Toast.makeText(applicationContext,"Hãy nhâp tin nhắn!!",Toast.LENGTH_LONG).show()
             } else {
-                sendMessage(message)
+                sendMessage(AESHelper().encrypt(message)!!)
             }
 
         }

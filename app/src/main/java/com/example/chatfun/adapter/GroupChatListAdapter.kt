@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
 import com.example.chatfun.model.GroupChatList
 import com.example.chatfun.activity.GroupChatActivity
+import com.example.chatfun.model.AESHelper
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
@@ -108,7 +109,7 @@ class GroupChatListAdapter(
                         if (type.equals("image")){
                             holder.tvMessageLast.text = "Send a photo!"
                         } else{
-                            holder.tvMessageLast.text = message
+                            holder.tvMessageLast.text = AESHelper().decrypt(message)!!
                         }
 
                         holder.tvTimeLast.text  = mTime

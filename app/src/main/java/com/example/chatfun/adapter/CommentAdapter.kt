@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatfun.R
+import com.example.chatfun.model.AESHelper
 import com.example.chatfun.model.Comment
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -52,7 +53,7 @@ class CommentAdapter(
 
         //set data
         holder.tvUserName.text = userCommentName
-        holder.tvComment.text = commentContent
+        holder.tvComment.text = AESHelper().decrypt(commentContent)!!
         holder.tvTime.text = cTime
         Picasso.get().load(userCommentProfile).placeholder(R.drawable.profile).into(holder.avataUser)
 

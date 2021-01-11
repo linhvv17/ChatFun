@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.chatfun.R
+import com.example.chatfun.model.AESHelper
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -114,9 +115,9 @@ class AddPostActivity: AppCompatActivity() {
                     return@setOnClickListener
                 }
                 if (img_uri == null){
-                    uploadPost(title,description,"noImage")
+                    uploadPost(AESHelper().encrypt(title)!!,AESHelper().encrypt(description)!!,"noImage")
                 } else {
-                    uploadPost(title,description, img_uri.toString())
+                    uploadPost(AESHelper().encrypt(title)!!,AESHelper().encrypt(description)!!, img_uri.toString())
                 }
 
         }

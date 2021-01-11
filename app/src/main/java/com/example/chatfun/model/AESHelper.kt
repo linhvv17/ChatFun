@@ -42,6 +42,7 @@ class AESHelper {
 
     private fun getRaw(plainText: String, salt: String): ByteArray? {
         try {
+
             val factory: SecretKeyFactory = SecretKeyFactory.getInstance(secretKeyInstance)
             val spec: KeySpec = PBEKeySpec(
                 plainText.toCharArray(),
